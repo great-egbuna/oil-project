@@ -5,11 +5,29 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
+// Import images
+import coneImage from "@/assets/images/home/cone.jpg";
+import fireImage from "@/assets/images/home/fire.jpg";
+import carRefilImage from "@/assets/images/home/car_refil.jpg";
+import lightBulbImage from "@/assets/images/home/light_bulb.jpg";
+
 const images = [
-  "/images/home/cone.jpg",
-  "/images/home/fire.jpg",
-  "/images/home/car_refil.jpg",
-  "/images/home/light_bulb.jpg",
+  {
+    src: coneImage,
+    alt: "Oil cone",
+  },
+  {
+    src: fireImage,
+    alt: "Energy fire",
+  },
+  {
+    src: carRefilImage,
+    alt: "Car refueling",
+  },
+  {
+    src: lightBulbImage,
+    alt: "Light bulb energy",
+  },
 ];
 
 export default function Hero() {
@@ -36,12 +54,13 @@ export default function Hero() {
             className="absolute inset-0"
           >
             <Image
-              src={images[currentImageIndex]}
-              alt="Energy landscape"
+              src={images[currentImageIndex].src}
+              alt={images[currentImageIndex].alt}
               fill
               className="object-cover"
               priority
-              unoptimized
+              sizes="100vw"
+              quality={90}
             />
             <div className="absolute inset-0 bg-black/30" />
           </motion.div>
