@@ -6,10 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
 // Import images
-import coneImage from "@/assets/images/home/cone.jpg";
-import fireImage from "@/assets/images/home/fire.jpg";
-import carRefilImage from "@/assets/images/home/car_refil.jpg";
-import lightBulbImage from "@/assets/images/home/light_bulb.jpg";
+import coneImage from "../../../public/images/home/cone.jpg";
+import fireImage from "../../../public/images/home/fire.jpg";
+import carRefilImage from "../../../public/images/home/car_refil.jpg";
+import lightBulbImage from "../../../public/images/home/light_bulb.jpg";
 
 const images = [
   {
