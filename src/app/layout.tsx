@@ -5,8 +5,14 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Next.js Application",
-  description: "A modern Next.js application with TypeScript and Tailwind CSS",
+  title: "CL - Energy Solutions",
+  description:
+    "CL is committed to responsibly meeting society's evolving energy needs.",
+  icons: {
+    icon: [{ url: "/images/logo.jpg", type: "image/jpeg" }],
+    shortcut: "/images/logo.jpg",
+    apple: "/images/logo.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -16,9 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="min-h-screen bg-gray-50">{children}</main>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
