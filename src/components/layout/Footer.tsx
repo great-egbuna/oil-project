@@ -8,7 +8,8 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4">CL</h3>
             <p className="text-gray-400">
-              Committed to responsibly meeting society's evolving energy needs.
+              Committed to responsibly meeting society&apos;s evolving energy
+              needs.
             </p>
           </div>
 

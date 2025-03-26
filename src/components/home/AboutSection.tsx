@@ -18,10 +18,10 @@ export default function AboutSection() {
             <span className="text-red-500">Universal</span>
           </h2>
           <p className="text-xl text-gray-700 mb-8">
-            That's why CL scientists and engineers are pioneering new research
-            and pursuing new technologies to reduce emissions while creating
-            more efficient fuels. We're committed to responsibly meeting the
-            world's energy needs.
+            That&apos;s why CL scientists and engineers are pioneering new
+            research and pursuing new technologies to reduce emissions while
+            creating more efficient fuels. We&apos;re committed to responsibly
+            meeting the world&apos;s energy needs.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
             <motion.div
@@ -65,8 +65,8 @@ export default function AboutSection() {
                 Responsibility
               </h3>
               <p className="text-gray-600">
-                Meeting the world's energy needs responsibly while maintaining
-                the highest safety and environmental standards.
+                Meeting the world&apos;s energy needs responsibly while
+                maintaining the highest safety and environmental standards.
               </p>
             </motion.div>
           </div>
