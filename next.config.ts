@@ -1,7 +1,5 @@
-import type { NextConfig } from "next";
-import path from "path";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
@@ -13,14 +11,7 @@ const nextConfig: NextConfig = {
         pathname: "/photos/**",
       },
     ],
-  },
-  webpack(config) {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "@": path.resolve(__dirname, "./src"),
-      "@public": path.resolve(__dirname, "./public"),
-    };
-    return config;
+    disableStaticImages: false,
   },
 };
 

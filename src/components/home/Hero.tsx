@@ -1,25 +1,39 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
-const images = [
+// Import images from assets
+import cone from "../../assets/images/home/cone.jpg";
+import fire from "../../assets/images/home/fire.jpg";
+import carRefil from "../../assets/images/home/car_refil.jpg";
+import lightBulb from "../../assets/images/home/light_bulb.jpg";
+
+// Log the imported images for debugging
+console.log("Imported images:", { cone, fire, carRefil, lightBulb });
+
+interface ImageData {
+  src: StaticImageData;
+  alt: string;
+}
+
+const images: ImageData[] = [
   {
-    src: "/images/home/cone.jpg",
+    src: cone,
     alt: "Oil cone",
   },
   {
-    src: "/images/home/fire.jpg",
+    src: fire,
     alt: "Energy fire",
   },
   {
-    src: "/images/home/car_refil.jpg",
+    src: carRefil,
     alt: "Car refueling",
   },
   {
-    src: "/images/home/light_bulb.jpg",
+    src: lightBulb,
     alt: "Light bulb energy",
   },
 ];
@@ -55,6 +69,7 @@ export default function Hero() {
               priority
               sizes="100vw"
               quality={90}
+              unoptimized={false}
             />
             <div className="absolute inset-0 bg-black/30" />
           </motion.div>
