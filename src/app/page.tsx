@@ -6,9 +6,7 @@ export default function Home() {
       </h1>
       <p className="text-lg text-gray-600">
         Get started by editing{" "}
-        <code className="font-mono bg-gray-100 p-1 rounded">
-          src/app/page.tsx
-        </code>
+        <code className="font-mono bg-gray-100 p-1 rounded"></code>
       </p>
     </div>
   );
