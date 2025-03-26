@@ -1,22 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Project
+
+A modern Next.js application with TypeScript and Tailwind CSS.
+
+## Project Structure
+
+```
+src/
+├── app/                    # Next.js 13+ App Router
+│   ├── (auth)/            # Authentication related routes
+│   ├── (dashboard)/       # Dashboard related routes
+│   ├── api/               # API routes
+│   └── layout.tsx         # Root layout
+├── components/            # Reusable components
+│   ├── ui/               # Basic UI components
+│   └── shared/           # Shared components
+├── lib/                   # Utility functions and shared logic
+├── hooks/                 # Custom React hooks
+├── types/                 # TypeScript type definitions
+├── styles/               # Global styles and Tailwind config
+└── constants/            # Constants and configuration
+
+public/                   # Static assets
+```
 
 ## Getting Started
 
-First, run the development server:
+1. Install dependencies:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+   ```bash
+   npm install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   npm run dev
+   ```
+
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Tech Stack
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- ESLint
+
+## Development Guidelines
+
+- Use TypeScript for type safety
+- Follow the established project structure
+- Keep components modular and reusable
+- Use Tailwind CSS for styling
+- Follow ESLint rules for code consistency
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
