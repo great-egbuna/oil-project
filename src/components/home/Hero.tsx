@@ -5,21 +5,27 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
+// Import images
+import coneImage from "@public/images/home/cone.jpg";
+import fireImage from "@public/images/home/fire.jpg";
+import carRefilImage from "@public/images/home/car_refil.jpg";
+import lightBulbImage from "@public/images/home/light_bulb.jpg";
+
 const images = [
   {
-    src: "/images/home/cone.jpg",
+    src: coneImage,
     alt: "Oil cone",
   },
   {
-    src: "/images/home/fire.jpg",
+    src: fireImage,
     alt: "Energy fire",
   },
   {
-    src: "/images/home/car_refil.jpg",
+    src: carRefilImage,
     alt: "Car refueling",
   },
   {
-    src: "/images/home/light_bulb.jpg",
+    src: lightBulbImage,
     alt: "Light bulb energy",
   },
 ];
