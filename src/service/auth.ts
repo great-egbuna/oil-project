@@ -43,7 +43,7 @@ class AuthService {
           // ..
         });
     } catch (error) {
-      console.log(error?.message);
+      console.log(error);
       return new Error("Internal Server Error");
     }
   }
