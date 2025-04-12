@@ -42,7 +42,7 @@ class AuthService {
 
           // ..
         });
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       return new Error("Internal Server Error");
     }
@@ -62,7 +62,7 @@ class AuthService {
         status,
         message,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error("Authentication error:", error?.code);
 
       // Handle Firebase authentication errors
