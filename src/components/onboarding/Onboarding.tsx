@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FiUpload, FiCamera, FiX } from "react-icons/fi";
+import { FiCamera, FiX } from "react-icons/fi";
 
 export default function OnboardingForm() {
   const [preview, setPreview] = useState<string | null>(null);
