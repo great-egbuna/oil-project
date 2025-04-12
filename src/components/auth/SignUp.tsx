@@ -27,14 +27,16 @@ export const SignUp = ({ onSwitchForm }: AuthFormProps) => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     if (!role) {
-      addToast("Please select a role", "error");
+      toast("Please select a role", { type: "warning" });
 
       return;
     }
     const res = await authService.signUp({ email, password, role });
 
     if (res instanceof Error) {
-      toast(res.message, {});
+      toast(res.message, {
+        type: "error",
+      });
       type: "error";
       setIsSubmitting(false);
       return;
