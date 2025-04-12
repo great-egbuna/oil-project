@@ -13,7 +13,6 @@ export default function AuthProvider({
   const { setUser, setIsLoggedIn, setAuthenticatedUser } = useUserStore(
     (state) => state
   );
-
   const { setAuthLoading } = useUserStoreNonPersist();
 
   useEffect(() => {
@@ -23,13 +22,16 @@ export default function AuthProvider({
         const authenticatedUser = await authService.getUser(
           user?.uid as string
         );
-        setAuthenticatedUser(authenticatedUser as any);
+
+        if (authenticatedUser) setAuthenticatedUser(authenticatedUser as any);
+
         setIsLoggedIn(true);
-        setAuthLoading(false)
+
+        setAuthLoading(false);
       } else {
         setUser(null);
         setIsLoggedIn(false);
-        setAuthLoading(false)
+        setAuthLoading(false);
       }
     });
     return unsubscribe;

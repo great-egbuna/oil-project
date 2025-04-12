@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Onboarding() {
-  const { userObj, isLoggedIn, loading } = useUser();
+  const { user, isLoggedIn } = useUser();
   const { authLoading } = useUserStoreNonPersist();
   const router = useRouter();
 
@@ -16,15 +16,15 @@ export default function Onboarding() {
     if (!authLoading) {
       if (!isLoggedIn) router.push("/");
 
-      if (!userObj) router.push("/");
+      if (!user) router.push("/");
     }
-  }, [userObj, isLoggedIn, authLoading]);
+  }, [user, isLoggedIn, authLoading]);
 
   if (authLoading) return <FullScreenLoader />;
 
   if (isLoggedIn)
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 overflow-hidden">
         <OnboardingForm />
       </div>
     );
