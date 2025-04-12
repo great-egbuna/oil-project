@@ -41,6 +41,7 @@ export const Login = ({ onSwitchForm }: AuthFormProps) => {
       toast(res.message, {
         type: "success",
       });
+      setIsSubmitting(false);
       return;
     }
   };

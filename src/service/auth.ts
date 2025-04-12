@@ -4,7 +4,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, db } from "./firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 interface IAUTH {
   email: string;
@@ -60,8 +60,7 @@ class AuthService {
   }: IAUTH): Promise<{ status: "success" | "error"; message: string } | Error> {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // You can access user data here if needed
-      // const user = userCredential.user;
+
       const status = "success";
       const message = "Sign-in successful";
       return {
@@ -103,13 +102,39 @@ class AuthService {
   }
 
   public async signOut() {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-      })
-      .catch(() => {
-        // An error happened.
-      });
+    await signOut(auth);
+  }
+
+  public async getUser(uid: string) {
+    try {
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        return new Error("User not found");
+      }
+
+      return userSnap.data();
+    } catch (error: any) {
+      let errorMessage = "Failed to fetch user";
+
+      switch (error.code) {
+        case "permission-denied":
+          errorMessage = "Missing permissions to access user data";
+          break;
+        case "not-found":
+          errorMessage = "User document not found";
+          break;
+        case "unavailable":
+          errorMessage = "Network error occurred";
+          break;
+        case "invalid-argument":
+          errorMessage = "Invalid user ID format";
+          break;
+      }
+
+      throw new Error(errorMessage || error.message);
+    }
   }
 }
 

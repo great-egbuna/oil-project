@@ -5,16 +5,32 @@ import { persist } from "zustand/middleware";
 type User = {
   uid: string;
   email: string | null;
+  firstName?: string;
+  lastName?: string;
+  callNumber?: string;
+  whatsAppNumber?: string;
 } | null;
 
 type State = {
   user: User;
+  authenticatedUser: User;
   isLoggedIn: boolean;
   role: string | null;
   setUser: (user: User) => void;
+  setAuthenticatedUser: (user: User) => void;
   setIsLoggedIn: (status: boolean) => void;
   setRole: (role: string) => void;
 };
+
+type StateNonpersist = {
+  authLoading: boolean;
+  setAuthLoading: (value: boolean) => void;
+};
+
+export const useUserStoreNonPersist = create<StateNonpersist>((set) => ({
+  authLoading: true,
+  setAuthLoading: (value) => set({ authLoading: value }),
+}));
 
 export const useUserStore = create<State>()(
   persist(
@@ -22,7 +38,9 @@ export const useUserStore = create<State>()(
       user: null,
       isLoggedIn: false,
       role: null,
+      authenticatedUser: null,
       setUser: (user) => set({ user }),
+      setAuthenticatedUser: (user) => set({ user }),
       setIsLoggedIn: (status) => set({ isLoggedIn: status }),
       setRole: (role) => set({ role }),
     }),

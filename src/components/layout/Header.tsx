@@ -9,9 +9,11 @@ import Overlay from "../ui/Overlay";
 import { Login } from "../auth/Login";
 import { SignUp } from "../auth/SignUp";
 import { useUserStore } from "@/store/useUserStore";
+import { authService } from "@/service/auth";
 
 const Header = () => {
-  const setRole = useUserStore((state) => state.setRole);
+  const { setRole, isLoggedIn, setAuthenticatedUser, setIsLoggedIn, setUser } =
+    useUserStore((state) => state);
 
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [showAuthOverlay, setShowAuthOverlay] = useState(false);
@@ -29,6 +31,14 @@ const Header = () => {
     setShowAuthOverlay(true);
     setIsLoginForm(true);
     setRole(value);
+  };
+
+  const handleSignOut = async () => {
+    await authService.signOut();
+    setUser(null);
+    setAuthenticatedUser(null);
+    setIsLoggedIn(false);
+    setRole("");
   };
 
   return (
@@ -60,14 +70,23 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="relative hidden md:flex">
+          {isLoggedIn ? (
             <button
-              onClick={() => setIsSignInOpen(!isSignInOpen)}
-              className="bg-primary-red text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-blue transition cursor-pointer"
+              onClick={handleSignOut}
+              className="bg-primary-white text-primary-red px-4 py-2 rounded-md text-sm font-medium  transition cursor-pointer border border-primary-red"
             >
-              Sign In
+              Sign Out
             </button>
-          </div>
+          ) : (
+            <div className="relative hidden md:flex">
+              <button
+                onClick={() => setIsSignInOpen(!isSignInOpen)}
+                className="bg-primary-red text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-blue transition cursor-pointer"
+              >
+                Sign In
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

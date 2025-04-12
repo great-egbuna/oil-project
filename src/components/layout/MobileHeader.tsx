@@ -9,9 +9,11 @@ import SignUpOptions from "../ui/SignUpOptions";
 import { Login } from "../auth/Login";
 import { SignUp } from "../auth/SignUp";
 import { useUserStore } from "@/store/useUserStore";
+import { authService } from "@/service/auth";
 
 const MobileHeader = () => {
-  const setRole = useUserStore((state) => state.setRole);
+  const { setRole, isLoggedIn, setUser, setIsLoggedIn, setAuthenticatedUser } =
+    useUserStore((state) => state);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -30,6 +32,14 @@ const MobileHeader = () => {
     setShowAuthOverlay(true);
     setIsSignInOpen(false);
     setRole(value);
+  };
+
+  const handleSignOut = async () => {
+    await authService.signOut();
+    setUser(null);
+    setAuthenticatedUser(null);
+    setIsLoggedIn(false);
+    setRole("");
   };
   return (
     <div className="bg-white shadow-md relative z-50 md:hidden">
@@ -90,15 +100,24 @@ const MobileHeader = () => {
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.3 }}
               >
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsSignInOpen(true);
-                  }}
-                  className="bg-primary-red text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-blue transition cursor-pointer"
-                >
-                  Sign In
-                </button>
+                {isLoggedIn ? (
+                  <button
+                    onClick={handleSignOut}
+                    className="bg-primary-white text-primary-red px-4 py-2 rounded-md text-sm font-medium transition cursor-pointer border border-primary-red"
+                  >
+                    Sign Out
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsSignInOpen(true);
+                    }}
+                    className="bg-primary-red text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-blue transition cursor-pointer"
+                  >
+                    Sign In
+                  </button>
+                )}
               </motion.div>
             </div>
           </motion.div>
