@@ -1,27 +1,40 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import SignUpOptions from "../ui/SignUpOptions";
+import Overlay from "../ui/Overlay";
+import { Login } from "../auth/Login";
+import { SignUp } from "../auth/SignUp";
+import { useUserStore } from "@/store/useUserStore";
 
-export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Header = () => {
+  const setRole = useUserStore((state) => state.setRole);
+
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
+  const [isLoginForm, setIsLoginForm] = useState(true);
 
   const menuItems = [
-    { href: "/who-we-are", label: "Who we are" },
-    { href: "/what-we-do", label: "What we do" },
-    { href: "/sustainability", label: "Sustainability" },
-    { href: "/community", label: "Community" },
-    { href: "/newsroom", label: "Newsroom" },
-    { href: "/investors", label: "Investors" },
-    { href: "/careers", label: "Careers" },
+    { href: "/", label: "Home" },
+    { href: "/contact", label: "Contact Us" },
+    { href: "/products", label: "Products" },
+    { href: "/distributors", label: "Distributors" },
   ];
 
+  const handleSelect = (value: string) => {
+    setIsSignInOpen(false);
+    setShowAuthOverlay(true);
+    setIsLoginForm(true);
+    setRole(value);
+  };
+
   return (
-    <header className="bg-white shadow-md relative z-50">
+    <header className="hidden md:block bg-white shadow-md relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex items-center justify-between h-16">
           <div className="flex">
             <Link href="/" className="flex-shrink-0 flex items-center">
               <Image
@@ -35,118 +48,56 @@ export default function Header() {
             </Link>
           </div>
 
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-8 mx-auto">
             {menuItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-900 px-3 py-2 text-sm font-medium"
+                className="text-gray-700 hover:text-primary-blue px-3 py-2 text-sm font-medium"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center md:hidden">
+          <div className="relative hidden md:flex">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md text-gray-700 hover:text-blue-900 focus:outline-none"
+              onClick={() => setIsSignInOpen(!isSignInOpen)}
+              className="bg-primary-red text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-blue transition cursor-pointer"
             >
-              <motion.div
-                animate={isMenuOpen ? "open" : "closed"}
-                className="w-6 h-6 relative"
-              >
-                <motion.span
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: 45, y: 8 },
-                  }}
-                  className="absolute w-6 h-0.5 bg-current block"
-                />
-                <motion.span
-                  variants={{
-                    closed: { opacity: 1 },
-                    open: { opacity: 0 },
-                  }}
-                  className="absolute w-6 h-0.5 bg-current block top-2"
-                />
-                <motion.span
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: -45, y: -8 },
-                  }}
-                  className="absolute w-6 h-0.5 bg-current block top-4"
-                />
-              </motion.div>
+              Sign In
             </button>
           </div>
         </div>
       </div>
 
+      <SignUpOptions
+        isOpen={isSignInOpen}
+        onSelect={handleSelect}
+        mainItems={[
+          { label: "Dealer", value: "Dealer" },
+          { label: "Distributor", value: "Distributor" },
+        ]}
+        subItems={[
+          { label: "Mechanic", value: "Mechanic" },
+          { label: "Keke Driver", value: "Keke Driver" },
+          { label: "Car Driver", value: "Car Driver" },
+        ]}
+      />
+
       <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "100vh" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 bg-white z-40 md:hidden"
-          >
-            <div className="absolute top-4 right-4">
-              <button
-                onClick={() => setIsMenuOpen(false)}
-                className="p-2 rounded-md text-gray-700 hover:text-blue-900 focus:outline-none"
-              >
-                <motion.div
-                  animate={isMenuOpen ? "open" : "closed"}
-                  className="w-6 h-6 relative"
-                >
-                  <motion.span
-                    variants={{
-                      closed: { rotate: 0, y: 0 },
-                      open: { rotate: 45, y: 8 },
-                    }}
-                    className="absolute w-6 h-0.5 bg-current block"
-                  />
-                  <motion.span
-                    variants={{
-                      closed: { opacity: 1 },
-                      open: { opacity: 0 },
-                    }}
-                    className="absolute w-6 h-0.5 bg-current block top-2"
-                  />
-                  <motion.span
-                    variants={{
-                      closed: { rotate: 0, y: 0 },
-                      open: { rotate: -45, y: -8 },
-                    }}
-                    className="absolute w-6 h-0.5 bg-current block top-4"
-                  />
-                </motion.div>
-              </button>
-            </div>
-            <div className="flex flex-col items-center justify-center h-full space-y-8">
-              {menuItems.map((item) => (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Link
-                    href={item.href}
-                    className="text-2xl font-medium text-gray-700 hover:text-blue-900"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+        {showAuthOverlay && (
+          <Overlay onClose={() => setShowAuthOverlay(false)}>
+            {isLoginForm ? (
+              <Login onSwitchForm={() => setIsLoginForm(false)} />
+            ) : (
+              <SignUp onSwitchForm={() => setIsLoginForm(true)} />
+            )}
+          </Overlay>
         )}
       </AnimatePresence>
     </header>
   );
-}
+};
+
+export default Header;
