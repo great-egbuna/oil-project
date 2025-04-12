@@ -91,6 +91,7 @@ export const Login = ({ onSwitchForm }: AuthFormProps) => {
       <button
         className="w-full bg-primary-red text-white py-2 rounded-md hover:bg-red-600 transition mb-4"
         onClick={handleSubmit}
+        disabled={isSubmitting}
       >
         {isSubmitting ? <ButtonLoader /> : "Sign In"}
       </button>

@@ -13,41 +13,47 @@ interface IAUTH {
 }
 
 class AuthService {
-  public async signUp({ email, password, role }: IAUTH) {
+  public async signUp({
+    email,
+    password,
+    role,
+  }: IAUTH): Promise<{ status: "success" | "error"; message: string } | Error> {
     try {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-          const user = userCredential.user;
-          await setDoc(doc(db, "users", user.uid), {
-            uid: user.uid,
-            email: user.email,
-            role: role,
-            createdAt: new Date().toISOString(),
-          });
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-          const message =
-            "registration Success. Please complete your onboarding";
-          const status = "success";
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        role: role,
+        createdAt: new Date().toISOString(),
+      });
 
-          return {
-            message,
-            status,
-          };
-        })
-        .catch(() => {
-          const status = "failed";
-          return {
-            status,
-          };
-
-          // ..
-        });
+      return { status: "success", message: "Account created successfully" };
     } catch (error: any) {
-      console.log(error);
-      return new Error("Internal Server Error");
+      let errorMessage = "Registration failed";
+
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          errorMessage = "Email already registered";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "Invalid email address";
+          break;
+        case "auth/weak-password":
+          errorMessage = "Password should be at least 6 characters";
+          break;
+        case "auth/network-request-failed":
+          errorMessage = "Network error";
+          break;
+      }
+
+      return new Error(errorMessage);
     }
   }
-
   public async signIn({
     email,
     password,

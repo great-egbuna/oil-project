@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useToast } from "../ui/Toast";
 import { useRouter } from "next/navigation";
 import { ButtonLoader } from "../ui/Loader";
+import { toast } from "react-toastify";
 
 interface AuthFormProps {
   onSwitchForm: () => void;
@@ -33,16 +34,19 @@ export const SignUp = ({ onSwitchForm }: AuthFormProps) => {
     const res = await authService.signUp({ email, password, role });
 
     if (res instanceof Error) {
-      addToast(res.message, "error");
+      toast(res.message, {});
+      type: "error";
       setIsSubmitting(false);
       return;
     }
 
-    if (res === "success") {
-      addToast("Registeration complete. Please complete your onboarding");
+    if (res.status === "success") {
+      toast("Registeration complete. Please complete your onboarding", {
+        type: "success",
+      });
       router.push("/onboarding");
     }
-    setIsSubmitting(true);
+    setIsSubmitting(false);
   };
 
   return (
@@ -112,6 +116,7 @@ export const SignUp = ({ onSwitchForm }: AuthFormProps) => {
       <button
         className="w-full bg-primary-red text-white py-2 rounded-md hover:bg-red-600 transition mb-4"
         onClick={handleSubmit}
+        disabled={isSubmitting}
       >
         {isSubmitting ? <ButtonLoader /> : "Sign Up"}
       </button>
