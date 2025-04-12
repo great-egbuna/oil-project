@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useToast } from "../ui/Toast";
 import { authService } from "@/service/auth";
 import { ButtonLoader } from "../ui/Loader";
 import { toast } from "react-toastify";
@@ -11,7 +10,6 @@ interface AuthFormProps {
 }
 
 export const Login = ({ onSwitchForm }: AuthFormProps) => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);

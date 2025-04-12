@@ -35,7 +35,7 @@ class AuthService {
           };
         })
         .catch(() => {
-          let status = "failed";
+          const status = "failed";
           return {
             status,
           };
@@ -55,6 +55,8 @@ class AuthService {
       await signInWithEmailAndPassword(auth, email, password);
       // You can access user data here if needed
       // const user = userCredential.user;
+      const status = "success";
+      const message = "Sign-in successful";
       return {
         status: "success",
         message: "Sign-in successful",
@@ -98,7 +100,7 @@ class AuthService {
       .then(() => {
         // Sign-out successful.
       })
-      .catch((error) => {
+      .catch(() => {
         // An error happened.
       });
   }
