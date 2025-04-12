@@ -12,7 +12,6 @@ interface AuthFormProps {
 
 export const SignUp = ({ onSwitchForm }: AuthFormProps) => {
   const role = useUserStore((state) => state.role);
-  const { addToast } = useToast();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
