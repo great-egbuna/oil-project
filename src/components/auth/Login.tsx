@@ -11,7 +11,6 @@ interface AuthFormProps {
 }
 
 export const Login = ({ onSwitchForm }: AuthFormProps) => {
-  const { addToast } = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

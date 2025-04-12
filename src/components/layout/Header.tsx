@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import SignUpOptions from "../ui/SignUpOptions";
 import Overlay from "../ui/Overlay";
 import { Login } from "../auth/Login";

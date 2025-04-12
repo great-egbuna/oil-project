@@ -8,10 +8,10 @@ type User = {
 } | null;
 
 type State = {
-  user: any;
+  user: User;
   isLoggedIn: boolean;
   role: string | null;
-  setUser: (user: any) => void;
+  setUser: (user: User) => void;
   setIsLoggedIn: (status: boolean) => void;
   setRole: (role: string) => void;
 };

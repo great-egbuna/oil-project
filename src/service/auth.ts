@@ -17,8 +17,6 @@ class AuthService {
     try {
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-          let message: string | undefined;
-          let status;
           const user = userCredential.user;
           await setDoc(doc(db, "users", user.uid), {
             uid: user.uid,
@@ -27,17 +25,16 @@ class AuthService {
             createdAt: new Date().toISOString(),
           });
 
-          message = "Registration Success. Please complete your onboarding";
-          status = "success";
+          const message =
+            "registration Success. Please complete your onboarding";
+          const status = "success";
 
           return {
             message,
             status,
           };
         })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
+        .catch(() => {
           let status = "failed";
           return {
             status,
@@ -62,13 +59,13 @@ class AuthService {
         status: "success",
         message: "Sign-in successful",
       };
-    } catch (error: any) {
-      console.error("Authentication error:", error.code);
+    } catch (error) {
+      console.error("Authentication error:", error?.code);
 
       // Handle Firebase authentication errors
       let errorMessage = "Sign-in failed. Please try again.";
 
-      switch (error.code) {
+      switch (error?.code) {
         case "auth/invalid-email":
           errorMessage = "Invalid email address";
           break;
