@@ -43,6 +43,7 @@ class AuthService {
           // ..
         });
     } catch (error) {
+      console.log(error?.message);
       return new Error("Internal Server Error");
     }
   }
@@ -58,8 +59,8 @@ class AuthService {
       const status = "success";
       const message = "Sign-in successful";
       return {
-        status: "success",
-        message: "Sign-in successful",
+        status,
+        message,
       };
     } catch (error) {
       console.error("Authentication error:", error?.code);
