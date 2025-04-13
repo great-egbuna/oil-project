@@ -8,7 +8,10 @@ type User = {
   firstName?: string;
   lastName?: string;
   callNumber?: string;
-  whatsAppNumber?: string;
+  whatsappNumber?: string;
+  profileImage?: string;
+  onboardingComplete?: boolean;
+  role?: string;
 } | null;
 
 type State = {
@@ -40,7 +43,7 @@ export const useUserStore = create<State>()(
       role: null,
       authenticatedUser: null,
       setUser: (user) => set({ user }),
-      setAuthenticatedUser: (user) => set({ user }),
+      setAuthenticatedUser: (user) => set({ authenticatedUser: user }),
       setIsLoggedIn: (status) => set({ isLoggedIn: status }),
       setRole: (role) => set({ role }),
     }),
