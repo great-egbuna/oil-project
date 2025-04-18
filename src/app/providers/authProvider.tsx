@@ -18,7 +18,7 @@ export default function AuthProvider({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUser({ uid: user.uid, email: user.email });
+        setUser(user as any);
         const authenticatedUser = await authService.getUser(
           user?.uid as string
         );
