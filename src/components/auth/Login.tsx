@@ -4,12 +4,15 @@ import { useState } from "react";
 import { authService } from "@/service/auth";
 import { ButtonLoader } from "../ui/Loader";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   onSwitchForm: () => void;
 }
 
 export const Login = ({ onSwitchForm }: AuthFormProps) => {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
@@ -42,6 +45,7 @@ export const Login = ({ onSwitchForm }: AuthFormProps) => {
         type: "success",
       });
       setIsSubmitting(false);
+      router.push("/dashboard");
       return;
     }
   };

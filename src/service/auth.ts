@@ -114,7 +114,10 @@ class AuthService {
         return new Error("User not found");
       }
 
-      return userSnap.data();
+      return {
+        ...userSnap.data(),
+        userId: userSnap.id,
+      };
     } catch (error: any) {
       let errorMessage = "Failed to fetch user";
 

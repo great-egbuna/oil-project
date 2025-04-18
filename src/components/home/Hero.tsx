@@ -10,9 +10,10 @@ import cone from "../../assets/images/home/cone.jpg";
 import fire from "../../assets/images/home/fire.jpg";
 import carRefil from "../../assets/images/home/car_refil.jpg";
 import lightBulb from "../../assets/images/home/light_bulb.jpg";
+import Overlay from "../ui/Overlay";
+import { ContactModal } from "./ContactUs";
 
 // Log the imported images for debugging
-console.log("Imported images:", { cone, fire, carRefil, lightBulb });
 
 interface ImageData {
   src: StaticImageData;
@@ -40,6 +41,8 @@ const images: ImageData[] = [
 
 export default function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -92,17 +95,23 @@ export default function Hero() {
             New Technologies To Reduce Emissions While Creating More Efficient
             Fuels.
           </p>
-          <Link
-            href="/who-we-are"
-            className="inline-block bg-blue-900 text-white px-8 py-3 rounded-md hover:bg-blue-800 transition-colors group"
+          <button
+            className="inline-block bg-primary-red text-white px-8 py-3 rounded-md hover:bg-red-600 transition-colors group"
+            onClick={() => setShow(true)}
           >
-            Learn more{" "}
+            Contact Us
             <span className="inline-block transition-transform group-hover:scale-125 animate-pulse ml-1">
               →
             </span>
-          </Link>
+          </button>
         </motion.div>
       </div>
+
+      {show && (
+        <Overlay onClose={() => setShow(false)}>
+          <ContactModal onClose={() => setShow(false)} />
+        </Overlay>
+      )}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore,  } from "firebase/firestore";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyAV83NbWXuoO_dlD6vH6jgnyICRJTpztDs",
   authDomain: "confluence-lube.firebaseapp.com",
   projectId: "confluence-lube",

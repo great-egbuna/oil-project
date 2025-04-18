@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 
 type User = {
   uid: string;
+  userId: string;
   email: string | null;
   firstName?: string;
   lastName?: string;
@@ -28,10 +29,14 @@ type State = {
 type StateNonpersist = {
   authLoading: boolean;
   setAuthLoading: (value: boolean) => void;
+  createStaff: boolean;
+  setCreateStaff: (createStaff: boolean) => void;
 };
 
 export const useUserStoreNonPersist = create<StateNonpersist>((set) => ({
   authLoading: true,
+  createStaff: false,
+  setCreateStaff: (value) => set({ createStaff: value }),
   setAuthLoading: (value) => set({ authLoading: value }),
 }));
 

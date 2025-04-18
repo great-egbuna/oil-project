@@ -23,9 +23,11 @@ const MobileHeader = () => {
 
   const menuItems = [
     { href: "/", label: "Home" },
-    { href: "/contact", label: "Contact Us" },
+    { href: "/about", label: "About" },
+
     { href: "/products", label: "Products" },
     { href: "/distributors", label: "Distributors" },
+    { href: "/faq", label: "FAQ" },
   ];
 
   const handleSelect = (value: string) => {
@@ -101,12 +103,12 @@ const MobileHeader = () => {
                 transition={{ duration: 0.3 }}
               >
                 {isLoggedIn ? (
-                  <button
-                    onClick={handleSignOut}
-                    className="bg-primary-white text-primary-red px-4 py-2 rounded-md text-sm font-medium transition cursor-pointer border border-primary-red"
+                  <Link
+                    className="bg-primary-white text-primary-red px-4 py-2 rounded-md text-sm font-medium  transition cursor-pointer border border-primary-red"
+                    href={"/dashboard"}
                   >
-                    Sign Out
-                  </button>
+                    Dashboard
+                  </Link>
                 ) : (
                   <button
                     onClick={() => {

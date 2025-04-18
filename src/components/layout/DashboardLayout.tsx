@@ -20,6 +20,9 @@ import { useRouter } from "next/navigation";
 import Overlay from "../ui/Overlay";
 import ContactAdminCard from "../ui/ContactAdmin";
 import { authService } from "@/service/auth";
+import { AiFillProduct } from "react-icons/ai";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const DashboardLayoutComponent = ({
   children,
@@ -35,14 +38,24 @@ const DashboardLayoutComponent = ({
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openOverlay, setOpenOverlay] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const adminNav = [
-    { label: "Staff", icon: <FiUserPlus /> },
-    { label: "Dealers", icon: <FiUsers /> },
-    { label: "Distributors", icon: <FiTruck /> },
-    { label: "Others", icon: <FiUsers /> },
-    { label: "Settings", icon: <FiSettings /> },
+    { label: "Staff", icon: <FiUserPlus />, path: "/dashboard/staff" },
+    { label: "Add User", icon: <FiUsers />, path: "/dashboard/new-user" },
+    { label: "Users", icon: <FiTruck />, path: "/dashboard/users" },
+    {
+      label: "Add Product",
+      icon: <AiFillProduct />,
+      path: "/dashboard/create-product",
+    },
+
+    {
+      label: "Products",
+      icon: <AiFillProduct />,
+      path: "/dashboard/products",
+    },
+    { label: "Logout", icon: <FiLogOut /> },
+    /*     { label: "Settings", icon: <FiSettings /> }, */
   ];
 
   const userNav = [
@@ -81,7 +94,7 @@ const DashboardLayoutComponent = ({
       if (authenticatedUser && authenticatedUser?.onboardingComplete === false)
         router.push("/onboarding");
     }
-  }, [authLoading]);
+  }, [authLoading, isLoggedIn]);
 
   if (authLoading) return <FullScreenLoader />;
 
@@ -99,13 +112,16 @@ const DashboardLayoutComponent = ({
         }`}
       >
         <div className="flex justify-between items-center mb-6 lg:hidden">
-          <Image
-            src="/images/logo.jpg"
-            alt="CL Logo"
-            width={120}
-            height={40}
-            className="h-8 w-auto"
-          />
+          <Link href={"/"}>
+            <Image
+              src="/images/logo.jpg"
+              alt="CL Logo"
+              width={120}
+              height={40}
+              className="h-8 w-auto"
+            />
+          </Link>
+
           <button
             onClick={() => setIsSidebarOpen(false)}
             className="p-2 hover:bg-gray-100 rounded-lg"
@@ -118,7 +134,12 @@ const DashboardLayoutComponent = ({
           {navItems.map((item) => (
             <button
               key={item.label}
-              className="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 hover:text-primary-red"
+              className={cn(
+                "w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 hover:text-primary-red",
+                {
+                  "text-primary-red": location.pathname === item.path,
+                }
+              )}
               onClick={() => handleNavClick(item)}
             >
               <span className="text-xl">{item.icon}</span>
@@ -142,13 +163,15 @@ const DashboardLayoutComponent = ({
 
           {/* Logo */}
           <div className="flex items-center invisible lg:visible">
-            <Image
-              src="/images/logo.jpg"
-              alt="CL Logo"
-              width={120}
-              height={40}
-              className="h-6 w-auto"
-            />
+            <Link href={"/"}>
+              <Image
+                src="/images/logo.jpg"
+                alt="CL Logo"
+                width={120}
+                height={40}
+                className="h-6 w-auto"
+              />
+            </Link>
           </div>
 
           {/* Desktop Avatar */}

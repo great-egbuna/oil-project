@@ -1,6 +1,28 @@
-import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  FirestoreError,
+  doc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+
+interface Order {
+  id: string;
+  userId: string;
+  productId: string;
+  productName: string;
+  quantity: number;
+  totalAmount: number;
+  status: "pending" | "completed" | "failed";
+  createdAt: Date;
+  updatedAt: Date;
+}
 class UserService {
   public async onboardUser(
     uid: string,
@@ -79,6 +101,49 @@ class UserService {
       }
 
       return new Error(errorMessage || error.message);
+    }
+  }
+
+  public async getOrders(userId: string): Promise<Order[] | Error> {
+    try {
+      const ordersRef = collection(db, "orders");
+      const q = query(
+        ordersRef,
+        where("userId", "==", userId),
+        orderBy("createdAt", "desc")
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        return [];
+      }
+
+      return querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt?.toDate() || new Date(),
+        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+      })) as Order[];
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+
+      if (error instanceof FirestoreError) {
+        switch (error.code) {
+          case "permission-denied":
+            return new Error("You do not have permission to view orders");
+          case "unavailable":
+            return new Error(
+              "Network error - please check your internet connection"
+            );
+          default:
+            return new Error("Failed to fetch orders");
+        }
+      }
+
+      return error instanceof Error
+        ? error
+        : new Error("An unexpected error occurred");
     }
   }
 }

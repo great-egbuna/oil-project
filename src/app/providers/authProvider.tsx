@@ -23,6 +23,8 @@ export default function AuthProvider({
           user?.uid as string
         );
 
+        console.log("user", authenticatedUser);
+
         if (authenticatedUser) setAuthenticatedUser(authenticatedUser as any);
 
         setIsLoggedIn(true);
