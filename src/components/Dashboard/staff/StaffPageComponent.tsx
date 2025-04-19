@@ -153,7 +153,7 @@ export default function StaffPageComponent() {
                 <img
                   src={staff.profileImage}
                   alt={`${staff.firstName} ${staff.lastName}`}
-                  className="w-24 h-24 rounded-full mb-4"
+                  className="w-24 h-24 rounded-full mb-4 object-cover"
                 />
               ) : (
                 <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
