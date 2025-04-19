@@ -24,7 +24,7 @@ export default function UserTasks() {
   return (
     <div>
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
-        Previous Orders
+        Your Task
       </h2>
       <TaskList tasks={tasks} uid={authenticatedUser?.uid as string} />
     </div>

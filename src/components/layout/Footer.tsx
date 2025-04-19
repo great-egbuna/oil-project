@@ -23,53 +23,23 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/careers"
+                  href="/products"
                   className="text-gray-400 hover:text-white"
                 >
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/news" className="text-gray-400 hover:text-white">
-                  News
+                  Products
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/investors"
+                  href="/distributors"
                   className="text-gray-400 hover:text-white"
                 >
-                  Investors
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Resources</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/sustainability"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Sustainability
+                  Distributor
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/community"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Community
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Contact us
+                <Link href="/faq" className="text-gray-400 hover:text-white">
+                  FAQ
                 </Link>
               </li>
             </ul>
@@ -113,7 +83,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>© Copyright 2024 CL. All Rights Reserved.</p>
+          <p>© Copyright {new Date().getFullYear()} CL. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
