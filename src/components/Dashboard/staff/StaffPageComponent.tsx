@@ -145,7 +145,7 @@ export default function StaffPageComponent() {
               onClick={(e) => handleDeleteClick(e, staff)}
               className="absolute top-2 right-2 text-red-500 hover:text-red-700"
             >
-              <FaTrash size={20} />
+              <FaTrash size={15} />
             </button>
 
             <div className="flex flex-col items-center">
@@ -163,17 +163,21 @@ export default function StaffPageComponent() {
                   </span>
                 </div>
               )}
-              <h3 className="text-base font-semibold text-center">
-                Name: {staff.firstName} {staff.lastName}
-              </h3>
+              <div className="flex flex-col gap-2 text-gray-600 w-full">
+                <h3 className="text-xs font-normal ">
+                  Name: {staff.firstName} {staff.lastName}
+                </h3>
 
-              <h3 className="text-base font-semibold text-center">
-                Email: {staff.email}
-              </h3>
+                <h3 className="text-xs font-normal ">Email: {staff.email}</h3>
 
-              <h3 className="text-base font-semibold text-center">
-                Phone: {staff.callNumber}
-              </h3>
+                <h3 className="text-xs font-normal ">
+                  Phone: {staff.callNumber}
+                </h3>
+
+                <h3 className="text-xs font-normal ">
+                  Position: {staff.position}
+                </h3>
+              </div>
             </div>
           </div>
         ))}

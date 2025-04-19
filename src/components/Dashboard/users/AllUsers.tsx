@@ -95,7 +95,7 @@ export const UserList = () => {
               onClick={() => handleDeleteClick(user.uid)}
               className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
             >
-              <FaTrash size={20} />
+              <FaTrash size={15} />
             </button>
 
             <div className="flex flex-col items-center">
@@ -110,21 +110,20 @@ export const UserList = () => {
                   <FaUser className="w-12 h-12 text-gray-500" />
                 </div>
               )}
-              <h3 className="text-base font-semibold text-center">
-                {user.firstName} {user.lastName}
-              </h3>{" "}
-              <h3 className="text-base font-semibold text-center text-black/70">
-                {user.email}
-              </h3>
-              <span
-                className={cn(
-                  `mt-2 text-sm font-medium text-white bg-primary-red rounded-[25px] px-2 text-xs py-2 ${getRoleColor(
-                    user.role as string
-                  )}`
-                )}
-              >
-                {user.role}
-              </span>
+
+              <div className="flex flex-col gap-2 w-full">
+                <h3 className="text-xs font-normal ">
+                  {user.firstName} {user.lastName}
+                </h3>{" "}
+                <h3 className="text-xs font-normal ">{user.email}</h3>
+                <span
+                  className={cn(
+                    ` text-sm font-medium text-primary-red  text-xs`
+                  )}
+                >
+                  {user.role}
+                </span>
+              </div>
             </div>
 
             {isDeleteOpen && (

@@ -83,6 +83,7 @@ export default function CreateUser() {
     otherProducts: "",
     businessDuration: "",
     marketingTeam: "",
+    position: "",
     declaration: false,
     passportFile: null as File | null, // Add passport file state
   });
@@ -377,6 +378,23 @@ export default function CreateUser() {
             </div>
           </div>
         </div>
+
+        {formData.role === "Staff" && (
+          <div className="relative mt-2">
+            <input
+              type="text"
+              id="lastName"
+              required
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none peer"
+              onChange={(e) =>
+                setFormData({ ...formData, position: e.target.value })
+              }
+            />
+            <label className="absolute left-4 top-2 text-gray-400 transition-all duration-200 peer-focus:-top-4 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-sm bg-white px-1">
+              Position In Company *
+            </label>
+          </div>
+        )}
 
         {/* Conditional Fields for Dealers/Distributors */}
         {(formData.role === "Dealer" || formData.role === "Distributor") && (
