@@ -78,6 +78,7 @@ const DashboardLayoutComponent = ({
   const handleNavClick = async (item) => {
     if (item.path) {
       router.push(item.path);
+      setIsSidebarOpen(false);
     }
     if (item.label === "Contact Admin") {
       setOpenOverlay(true);
