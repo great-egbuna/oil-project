@@ -11,6 +11,7 @@ import { useUser } from "@/hooks/useUser";
 import { useUserStoreNonPersist } from "@/store/useUserStore";
 import { EmptyUsersCard } from "@/components/ui/NoUsers";
 import { toast } from "react-toastify";
+import { cn } from "@/lib/utils";
 
 interface UserCardProps {
   users: Array<{
@@ -65,10 +66,10 @@ export const UserList = () => {
     switch (role.toLowerCase()) {
       case "admin":
         return "text-red-500";
-      case "staff":
+      case "Staff":
         return "text-blue-500";
       default:
-        return "text-gray-500";
+        return "text-white";
     }
   };
 
@@ -109,16 +110,18 @@ export const UserList = () => {
                   <FaUser className="w-12 h-12 text-gray-500" />
                 </div>
               )}
-              <h3 className="text-xl font-semibold text-center">
+              <h3 className="text-base font-semibold text-center">
                 {user.firstName} {user.lastName}
               </h3>{" "}
-              <h3 className="text-xl font-semibold text-center text-black/70">
+              <h3 className="text-base font-semibold text-center text-black/70">
                 {user.email}
               </h3>
               <span
-                className={`mt-2 text-sm font-medium ${getRoleColor(
-                  user.role as string
-                )}`}
+                className={cn(
+                  `mt-2 text-sm font-medium text-white bg-primary-red rounded-[25px] px-2 text-xs py-2 ${getRoleColor(
+                    user.role as string
+                  )}`
+                )}
               >
                 {user.role}
               </span>
