@@ -30,13 +30,13 @@ const SignUpOptions = ({
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
           className={cn(
-            "absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white z-50",
+            "absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white z-50 w-full  ",
             {
               [className as string]: className,
             }
           )}
         >
-          <div className="py-1">
+          <div className="py-1 w-full">
             {mainItems.map((item) => (
               <button
                 key={item.value}

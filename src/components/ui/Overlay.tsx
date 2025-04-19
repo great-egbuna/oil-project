@@ -11,7 +11,7 @@ const Overlay = ({
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     transition={{ duration: 0.2 }}
-    className="fixed inset-0 bg-black/50 z-50 flex  items-center justify-center"
+    className="fixed inset-0 bg-black/50 z-50 flex  items-center justify-center px-4"
     onClick={onClose}
   >
     <div
