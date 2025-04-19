@@ -2,23 +2,15 @@
 
 import AdminDashboardStats from "@/components/Dashboard/AdminDashboardContent";
 import UserDashboardContent from "@/components/Dashboard/UserDashboardContent";
+import UserTasks from "@/components/Dashboard/users/UserTask";
 import { useUserStore } from "@/store/useUserStore";
 
 export default function DashboardPage() {
   const authenticatedUser = useUserStore((state) => state.authenticatedUser);
 
-  console.log("authenticatedUser", authenticatedUser);
+  if (authenticatedUser?.role === "Staff") return <UserTasks />;
 
-  if (authenticatedUser?.role === "admin")
-    return (
-      <h1 className="text-2xl font-bold mb-6">
-        <AdminDashboardStats />
-      </h1>
-    );
+  if (authenticatedUser?.role === "admin") return <AdminDashboardStats />;
 
-  return (
-    <h1 className="text-2xl font-bold mb-6">
-      <UserDashboardContent />
-    </h1>
-  );
+  return <UserDashboardContent />;
 }
