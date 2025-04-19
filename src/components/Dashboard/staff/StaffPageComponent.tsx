@@ -101,8 +101,8 @@ export default function StaffPageComponent() {
 
   if (staffs.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="max-w-md w-full text-center">
+      <div className="min-h-screen flex items-center justify-center p-6 overflow-y-hidden">
+        <div className="max-w-[400px] w-full text-center">
           <div className="relative inline-block">
             <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full blur opacity-30"></div>
             <div className="relative inline-flex items-center justify-center w-24 h-24 bg-white rounded-full shadow-lg">
@@ -126,17 +126,6 @@ export default function StaffPageComponent() {
               <FaUserPlus className="mr-2 -ml-1 h-5 w-5" />
               Add First Team Member
             </Link>
-          </div>
-
-          <div className="mt-12 animate-pulse text-gray-400">
-            <div className="flex justify-center space-x-4">
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="h-32 w-32 rounded-xl bg-gray-100/50"
-                ></div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
