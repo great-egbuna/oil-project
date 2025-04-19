@@ -289,7 +289,7 @@ export default function StaffPageComponent() {
               </button>
               <button
                 onClick={handleDeleteConfirm}
-                className="px-4 py-2 bg-primary-red text-white rounded hover:bg-red-600 w-[50px]"
+                className="px-4 py-2 bg-primary-red text-white rounded hover:bg-red-600 "
               >
                 {isDeleting ? <ButtonLoader /> : "Delete"}
               </button>
