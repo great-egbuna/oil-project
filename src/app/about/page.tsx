@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import MobileHeader from "@/components/layout/MobileHeader";
 
@@ -107,6 +108,10 @@ export default function AboutPage() {
         </section>
 
         {/* CTA */}
+      </div>
+
+      <div className="mt-[200px]">
+        <Footer />
       </div>
     </div>
   );

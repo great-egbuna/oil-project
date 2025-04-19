@@ -218,7 +218,7 @@ const FAQPage = () => {
   const allQuestions = faqData.flatMap((category) => category.items);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
       <h1 className="text-3xl font-bold text-primary-red mb-12 text-center">
         Frequently Asked Questions
       </h1>
