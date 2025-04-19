@@ -143,7 +143,7 @@ export default function OnboardingForm() {
           type: "success",
         });
 
-        // @ts-ignore
+        //@ts-expect-error
         setAuthenticatedUser(res);
         router.push("/dashboard");
       }
