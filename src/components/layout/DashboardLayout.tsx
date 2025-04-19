@@ -12,6 +12,7 @@ import {
   FiMenu,
   FiX,
   FiLogOut,
+  FiBookOpen,
 } from "react-icons/fi";
 import { useUser } from "@/hooks/useUser";
 import { useUserStore, useUserStoreNonPersist } from "@/store/useUserStore";
@@ -63,6 +64,11 @@ const DashboardLayoutComponent = ({
     {
       label: "Contact Admin",
       icon: <FiMessageCircle />,
+    },
+    {
+      label: authenticatedUser?.role === "Staff" ? "Task" : null,
+      icon: authenticatedUser?.role === "Staff" ? <FiBookOpen /> : null,
+      path: "/dashboard/task",
     },
     { label: "Logout", icon: <FiLogOut /> },
   ];
@@ -131,21 +137,25 @@ const DashboardLayoutComponent = ({
         </div>
 
         <div className="space-y-2">
-          {navItems.map((item) => (
-            <button
-              key={item.label}
-              className={cn(
-                "w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 hover:text-primary-red",
-                {
-                  "text-primary-red": location.pathname === item.path,
-                }
-              )}
-              onClick={() => handleNavClick(item)}
-            >
-              <span className="text-xl">{item.icon}</span>
-              <span className="text-sm font-medium">{item.label}</span>
-            </button>
-          ))}
+          {navItems.map((item) => {
+            if (!item.label) return;
+
+            return (
+              <button
+                key={item.label}
+                className={cn(
+                  "w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 hover:text-primary-red",
+                  {
+                    "text-primary-red": location.pathname === item.path,
+                  }
+                )}
+                onClick={() => handleNavClick(item)}
+              >
+                <span className="text-xl">{item.icon}</span>
+                <span className="text-sm font-medium">{item.label}</span>
+              </button>
+            );
+          })}
         </div>
       </nav>
 

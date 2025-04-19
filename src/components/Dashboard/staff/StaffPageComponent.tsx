@@ -174,8 +174,16 @@ export default function StaffPageComponent() {
                   </span>
                 </div>
               )}
-              <h3 className="text-xl font-semibold text-center">
-                {staff.firstName} {staff.lastName}
+              <h3 className="text-base font-semibold text-center">
+                Name: {staff.firstName} {staff.lastName}
+              </h3>
+
+              <h3 className="text-base font-semibold text-center">
+                Email: {staff.email}
+              </h3>
+
+              <h3 className="text-base font-semibold text-center">
+                Phone: {staff.callNumber}
               </h3>
             </div>
           </div>

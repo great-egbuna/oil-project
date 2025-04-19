@@ -4,6 +4,9 @@ import {
   where,
   getDocs,
   FirestoreError,
+  updateDoc,
+  serverTimestamp,
+  doc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -56,6 +59,51 @@ class GeneralService {
       return error instanceof Error
         ? error
         : new Error("An unexpected error occurred");
+    }
+  }
+
+  public async updateTaskStatus(
+    taskId: string,
+    status: string,
+    uid: string
+  ): Promise<void | Error> {
+    const taskRef = doc(db, "tasks", taskId);
+
+    try {
+      await updateDoc(taskRef, {
+        status,
+        updatedAt: serverTimestamp(),
+        updatedBy: uid, // Added uid tracking
+      });
+    } catch (error) {
+      console.error("Error updating task status:", error);
+
+      let errorMessage = "Failed to update task status";
+
+      if (error instanceof FirestoreError) {
+        switch (error.code) {
+          case "permission-denied":
+            errorMessage = "You don't have permission to update tasks";
+            break;
+          case "not-found":
+            errorMessage = "Task document not found";
+            break;
+          case "unavailable":
+            errorMessage =
+              "Network error - please check your internet connection";
+            break;
+          case "invalid-argument":
+            errorMessage = "Invalid task ID or status value";
+            break;
+          case "aborted":
+            errorMessage = "Update was aborted - please try again";
+            break;
+          default:
+            errorMessage = "Failed to update task status";
+        }
+      }
+
+      return new Error(errorMessage);
     }
   }
 }
