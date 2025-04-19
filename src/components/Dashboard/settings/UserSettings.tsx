@@ -5,10 +5,14 @@ import Image from "next/image";
 import { useState } from "react";
 import { userService } from "@/service/user.service";
 import { toast } from "react-toastify";
-import { ButtonLoader } from "@/components/ui/Loader";
+import { ButtonLoader, FullScreenLoader } from "@/components/ui/Loader";
+import { useUserStoreNonPersist } from "@/store/useUserStore";
 
 export default function UpdateUserSettings() {
   const { authenticatedUser } = useUser();
+
+  console.log("My authenticatedUser", authenticatedUser);
+
   const [firstName, setFirstName] = useState(
     authenticatedUser?.firstName || ""
   );

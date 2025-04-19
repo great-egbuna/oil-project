@@ -10,6 +10,7 @@ import {
   doc,
   setDoc,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
 
 interface Order {
@@ -33,7 +34,7 @@ class UserService {
       whatsappNumber: string;
     },
     imageUrl?: string
-  ) {
+  ): Promise<{ userId: string; [key: string]: any } | Error> {
     try {
       const userRef = doc(db, "users", uid);
       const updateData = {
@@ -41,8 +42,21 @@ class UserService {
         ...(imageUrl && { profileImage: imageUrl }),
       };
 
+      // Update user document
       await setDoc(userRef, updateData, { merge: true });
-      return { status: "success", message: "Profile updated successfully" };
+
+      // Fetch updated document
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        return new Error("User document not found after update");
+      }
+
+      // Return combined data with userId
+      return {
+        ...userSnap.data(),
+        userId: userSnap.id,
+      };
     } catch (error: any) {
       let errorMessage = "Profile update failed";
 

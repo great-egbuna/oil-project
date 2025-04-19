@@ -29,6 +29,11 @@ export const SignUp = ({ onSwitchForm }: AuthFormProps) => {
 
       return;
     }
+    if (confirmPassword !== password) {
+      setIsSubmitting(false);
+      return;
+    }
+
     const res = await authService.signUp({ email, password, role });
 
     if (res instanceof Error) {
@@ -111,6 +116,12 @@ export const SignUp = ({ onSwitchForm }: AuthFormProps) => {
           onBlur={() => setConfirmFocused(false)}
           className="w-full px-3 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none"
         />
+
+        {confirmPassword !== password ? (
+          <p className="text-primary-red text-xs mt-2 font-bold">
+            Password are not the same
+          </p>
+        ) : null}
       </div>
 
       <button

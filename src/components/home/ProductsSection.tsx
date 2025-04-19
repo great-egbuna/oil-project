@@ -163,7 +163,6 @@ const CustomerProductList = () => {
           </div>
         ))}
       </div>
-
       {showOrderModal && (
         <Overlay
           onClose={() => {
@@ -171,20 +170,21 @@ const CustomerProductList = () => {
             setStep(1);
           }}
         >
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+          <div className="bg-white rounded-lg p-6  ">
             {step === 1 && (
-              <>
+              // Step 1: Order Summary
+              <div>
                 <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
                 {selectedProduct && (
-                  <>
-                    <div className="space-y-2 mb-4">
+                  <div className="w-full">
+                    <div className="space-y-2 mb-4 ">
                       <p>
                         Product: {selectedProduct.type} -{" "}
                         {selectedProduct.litre}
                       </p>
                       <p>Quantity: {quantities[selectedProduct.id]}</p>
                       <p className="text-lg font-semibold">
-                        Total: #
+                        Total: ₦
                         {(
                           selectedProduct.price * quantities[selectedProduct.id]
                         ).toFixed(2)}
@@ -195,14 +195,12 @@ const CustomerProductList = () => {
                       <h3 className="font-semibold mb-2">
                         Payment Instructions
                       </h3>
-                      <p className="mb-2">Please transfer payment to:</p>
-                      <p>Bank Name: XYZ Bank</p>
-                      <p>Account Name: Company Name</p>
-                      <p>Account Number: 1234567890</p>
-                      <p className="mt-2 text-sm text-gray-600">
-                        After payment, proceed to next step to enter your
-                        transaction ID
-                      </p>
+                      <p className="mb-4">Please transfer payment to:</p>
+                      <div className="space-y-2">
+                        <p>Bank Name: JAIZ BANK</p>
+                        <p>Account Name: GP GRO POWER MULTI BIZ RESOURCES</p>
+                        <p>Account Number: 0017310086</p>
+                      </div>
                     </div>
 
                     <button
@@ -211,12 +209,13 @@ const CustomerProductList = () => {
                     >
                       Next
                     </button>
-                  </>
+                  </div>
                 )}
-              </>
+              </div>
             )}
 
             {step === 2 && (
+              // Step 2: Transaction ID
               <>
                 <h2 className="text-xl font-semibold mb-4">Confirm Payment</h2>
                 <div className="space-y-4">
@@ -228,13 +227,60 @@ const CustomerProductList = () => {
                     className="w-full p-2 border rounded"
                   />
 
+                  <button
+                    onClick={() => setStep(3)}
+                    disabled={!transactionId}
+                    className="w-full py-2 bg-primary-red text-white rounded hover:bg-red-600 disabled:bg-gray-400"
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === 3 && (
+              // Step 3: Contact Information
+              <>
+                <h2 className="text-xl font-semibold mb-4">
+                  Payment Confirmation
+                </h2>
+                <div className="space-y-6">
+                  <div className="bg-red-50 p-4 rounded-lg">
+                    <p className="text-primary-red font-bold mb-2">
+                      ★ Please send your payment receipt to:
+                    </p>
+                    <div className="space-y-3">
+                      <a
+                        href="mailto:support@ConfluenceLube.com"
+                        className="block text-primary-red font-bold hover:underline"
+                      >
+                        Email: support@ConfluenceLube.com
+                      </a>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href="tel:07043005952"
+                          className="text-primary-red font-bold hover:underline"
+                        >
+                          Phone: 07043005952
+                        </a>
+                        <span className="text-primary-red">||</span>
+                        <a
+                          href="tel:08089617092"
+                          className="text-primary-red font-bold hover:underline"
+                        >
+                          08089617092
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
                   {orderError && (
                     <p className="text-red-500 text-sm">{orderError}</p>
                   )}
 
                   <button
                     onClick={handlePaymentConfirmation}
-                    disabled={isSubmitting || !transactionId}
+                    disabled={isSubmitting}
                     className={`w-full py-2 ${
                       isSubmitting ? "bg-gray-400" : "bg-primary-red"
                     } text-white rounded hover:bg-red-600`}

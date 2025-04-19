@@ -94,7 +94,7 @@ const DashboardLayoutComponent = ({
       if (authenticatedUser && authenticatedUser?.onboardingComplete === false)
         router.push("/onboarding");
     }
-  }, [authLoading, isLoggedIn]);
+  }, [authLoading, isLoggedIn, authenticatedUser]);
 
   if (authLoading) return <FullScreenLoader />;
 

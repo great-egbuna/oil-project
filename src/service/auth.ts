@@ -136,7 +136,7 @@ class AuthService {
           break;
       }
 
-      throw new Error(errorMessage || error.message);
+      return new Error(errorMessage || error.message);
     }
   }
 }

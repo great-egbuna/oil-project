@@ -51,7 +51,7 @@ const nigerianStates = [
 export default function OnboardingForm() {
   const { user } = useUser();
   const router = useRouter();
-  const role = useUserStore((state) => state.role);
+  const { role, setAuthenticatedUser } = useUserStore((state) => state);
 
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -138,11 +138,13 @@ export default function OnboardingForm() {
         return;
       }
 
-      if (res.status === "success") {
+      if (res.userId) {
         toast("Onboarding complete", {
           type: "success",
         });
 
+        // @ts-ignore
+        setAuthenticatedUser(res);
         router.push("/dashboard");
       }
     } catch (err: any) {
