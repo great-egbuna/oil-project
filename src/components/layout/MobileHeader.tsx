@@ -27,6 +27,8 @@ const MobileHeader = () => {
 
     { href: "/products", label: "Products" },
     { href: "/distributors", label: "Distributors" },
+    /*    { href: "/spec", label: "Specifications" },
+    { href: "/license", label: "Licensed By" }, */
     { href: "/faq", label: "FAQ" },
   ];
 

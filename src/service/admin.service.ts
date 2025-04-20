@@ -17,6 +17,7 @@ export interface User {
   firstName?: string;
   lastName?: string;
   profileImage?: string;
+  status?: string;
   // ... other user fields
 }
 
@@ -31,6 +32,7 @@ export interface Product {
   createdAt: Date;
   updatedAt: Date;
   status: string;
+  name?: string;
 }
 
 interface DashboardStats {
@@ -42,7 +44,11 @@ interface DashboardStats {
   productCount: number;
 }
 
-
+export interface ImageItem {
+  id: string;
+  url: string;
+  createdAt: Date;
+}
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
@@ -58,8 +64,11 @@ import {
   getDoc,
   FirestoreError,
   getCountFromServer,
+  updateDoc,
+  orderBy,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
+import { OrderData } from "./orders.service";
 
 class AdminService {
   public async addUser(
@@ -438,6 +447,91 @@ class AdminService {
     const q = query(collection(db, collectionName));
     const snapshot = await getCountFromServer(q);
     return snapshot.data().count;
+  }
+
+  async updateUserStatus(uid: string, status: string) {
+    try {
+      const userRef = doc(db, "users", uid);
+
+      await updateDoc(userRef, {
+        status: status,
+        updatedAt: new Date().toISOString(),
+      });
+
+      return "User status updated successfully";
+    } catch (error) {
+      return new Error(
+        error instanceof Error ? error.message : "Failed to update user status"
+      );
+    }
+  }
+
+  async getConfirmedOrders(): Promise<OrderData[] | Error> {
+    try {
+      const ordersRef = collection(db, "orders");
+      const q = query(
+        ordersRef,
+        where("status", "==", "confirmed"),
+        orderBy("createdAt", "desc")
+      );
+
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt.toDate(),
+      })) as any;
+    } catch (error) {
+      console.log("error", error);
+      return new Error("Failed to fetch confirmed orders");
+    }
+  }
+
+  async sendMessage(receiverId: string, message: string, senderId: string) {
+    try {
+      const messagesRef = collection(db, "messages");
+      await addDoc(messagesRef, {
+        receiverId,
+        senderId,
+        message,
+        timestamp: new Date().toISOString(),
+        read: false,
+      });
+      return true;
+    } catch (error) {
+      return new Error("Failed to send message");
+    }
+  }
+
+  async getImages(): Promise<ImageItem[]> {
+    const querySnapshot = await getDocs(collection(db, "images"));
+
+    return querySnapshot.docs
+      .map((doc) => ({
+        id: doc.id,
+        url: doc.data().url,
+        createdAt: doc.data().createdAt.toDate(),
+      }))
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async uploadImage(url: string): Promise<void | Error> {
+    try {
+      await addDoc(collection(db, "images"), {
+        url,
+        createdAt: serverTimestamp(),
+      });
+    } catch (error) {
+      return new Error("Failed to upload image");
+    }
+  }
+
+  async deleteImage(id: string) {
+    try {
+      await deleteDoc(doc(db, "images", id));
+    } catch (error) {
+      return new Error("Failed to delete image");
+    }
   }
 }
 

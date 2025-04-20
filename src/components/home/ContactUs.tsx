@@ -42,7 +42,7 @@ export const ContactModal = ({ onClose }) => {
                 <p className="font-medium text-gray-700">Email</p>
                 <a
                   href="mailto:support@ConfluenceLube.com"
-                  className="text-primary-red hover:underline"
+                  className="text-primary-red hover:underline hover:text-red-600 transition-colors"
                 >
                   support@ConfluenceLube.com
                 </a>
@@ -66,8 +66,18 @@ export const ContactModal = ({ onClose }) => {
               <div>
                 <p className="font-medium text-gray-700">Phone</p>
                 <div className="space-y-1">
-                  <p className="text-gray-600">07043005952</p>
-                  <p className="text-gray-600">08089617092</p>
+                  <a
+                    href="tel:07043005952"
+                    className="text-gray-600 hover:text-primary-red hover:underline transition-colors block"
+                  >
+                    07043005952
+                  </a>
+                  <a
+                    href="tel:08089617092"
+                    className="text-gray-600 hover:text-primary-red hover:underline transition-colors block"
+                  >
+                    08089617092
+                  </a>
                 </div>
               </div>
             </div>

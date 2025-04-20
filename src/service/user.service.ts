@@ -137,7 +137,7 @@ class UserService {
         id: doc.id,
         ...doc.data(),
         createdAt: doc.data().createdAt?.toDate() || new Date(),
-        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+        updatedAt: doc.data().updatedAt || new Date(),
       })) as Order[];
     } catch (error) {
       console.error("Error fetching orders:", error);

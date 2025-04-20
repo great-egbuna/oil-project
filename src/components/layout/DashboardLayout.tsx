@@ -24,6 +24,10 @@ import { authService } from "@/service/auth";
 import { AiFillProduct } from "react-icons/ai";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { BiMessage, BiMoney } from "react-icons/bi";
+import { RiOrderPlayFill } from "react-icons/ri";
+import { HiOfficeBuilding } from "react-icons/hi";
+import { SiContentful } from "react-icons/si";
 
 const DashboardLayoutComponent = ({
   children,
@@ -41,6 +45,9 @@ const DashboardLayoutComponent = ({
   const [openOverlay, setOpenOverlay] = useState(false);
 
   const adminNav = [
+    { label: "Home", icon: <HiOfficeBuilding />, path: "/dashboard/" },
+    { label: "CMS", icon: <SiContentful />, path: "/dashboard/cms" },
+
     { label: "Staff", icon: <FiUserPlus />, path: "/dashboard/staff" },
     { label: "Add User", icon: <FiUsers />, path: "/dashboard/new-user" },
     { label: "Users", icon: <FiTruck />, path: "/dashboard/users" },
@@ -55,11 +62,15 @@ const DashboardLayoutComponent = ({
       icon: <AiFillProduct />,
       path: "/dashboard/products",
     },
+    { label: "Sales", icon: <BiMoney />, path: "/dashboard/sales" },
+
     { label: "Logout", icon: <FiLogOut /> },
     /*     { label: "Settings", icon: <FiSettings /> }, */
   ];
 
   const userNav = [
+    { label: "Home", icon: <HiOfficeBuilding />, path: "/dashboard/" },
+
     { label: "Settings", icon: <FiSettings />, path: "/dashboard/settings" },
     {
       label: "Contact Admin",
@@ -70,6 +81,14 @@ const DashboardLayoutComponent = ({
       icon: authenticatedUser?.role === "Staff" ? <FiBookOpen /> : null,
       path: "/dashboard/task",
     },
+    {
+      label: "Order Now",
+      icon: <RiOrderPlayFill />,
+      path: "/products",
+    },
+
+    { label: "Messages", icon: <BiMessage />, path: "/dashboard/messages" },
+
     { label: "Logout", icon: <FiLogOut /> },
   ];
 

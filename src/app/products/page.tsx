@@ -1,4 +1,4 @@
-import CustomerProductList from "@/components/home/ProductsSection";
+import CustomerProductList from "@/components/home/CustomerProductList";
 import Header from "@/components/layout/Header";
 import MobileHeader from "@/components/layout/MobileHeader";
 

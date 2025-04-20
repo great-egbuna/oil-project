@@ -13,6 +13,7 @@ type User = {
   profileImage?: string;
   onboardingComplete?: boolean;
   role?: string;
+  status?: string;
 } | null;
 
 type State = {

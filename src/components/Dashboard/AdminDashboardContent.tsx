@@ -9,22 +9,25 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useUserStoreNonPersist } from "@/store/useUserStore";
 import { useEffect } from "react";
+import Link from "next/link";
 
-const StatCard = ({ icon: Icon, title, value, color }: any) => (
+const StatCard = ({ icon: Icon, title, value, color, path }: any) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
   >
-    <div className="flex items-center gap-4">
-      <div className={`p-3 rounded-lg ${color} text-white`}>
-        <Icon className="w-6 h-6" />
+    <Link href={path}>
+      <div className="flex items-center gap-4">
+        <div className={`p-3 rounded-lg ${color} text-white`}>
+          <Icon className="w-6 h-6" />
+        </div>
+        <div>
+          <h3 className="text-gray-500 text-sm font-medium">{title}</h3>
+          <p className="text-2xl font-bold text-gray-900">{value}</p>
+        </div>
       </div>
-      <div>
-        <h3 className="text-gray-500 text-sm font-medium">{title}</h3>
-        <p className="text-2xl font-bold text-gray-900">{value}</p>
-      </div>
-    </div>
+    </Link>
   </motion.div>
 );
 
@@ -62,36 +65,42 @@ const AdminDashboardStats = () => {
       title: "Dealers",
       value: stats.dealerCount,
       color: "bg-blue-500",
+      path: "#",
     },
     {
       icon: FaUsers,
       title: "Distributors",
       value: stats.distributorCount,
       color: "bg-green-500",
+      path: "#",
     },
     {
       icon: FaUser,
       title: "Staff",
       value: stats.staffCount,
       color: "bg-purple-500",
+      path: "#",
     },
     {
       icon: FaUsers,
       title: "Other Users",
       value: stats.othersCount,
       color: "bg-yellow-500",
+      path: "#",
     },
     {
       icon: FaShoppingCart,
       title: "Orders",
       value: stats.orderCount,
       color: "bg-pink-500",
+      path: "/dashboard/orders",
     },
     {
       icon: FaBox,
       title: "Products",
       value: stats.productCount,
       color: "bg-indigo-500",
+      path: "#",
     },
   ];
 
@@ -104,6 +113,7 @@ const AdminDashboardStats = () => {
           title={item.title}
           value={item.value}
           color={item.color}
+          path={item?.path}
         />
       ))}
     </div>
