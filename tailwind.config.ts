@@ -13,6 +13,17 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+
+      backdropBlur: {
+        sm: "4px",
+      },
+      borderWidth: {
+        3: "3px",
+      },
+      dropShadow: {
+        "cyber-cyan": "0 0 8px rgba(0, 255, 255, 0.8)",
+        "cyber-pink": "0 0 8px rgba(255, 0, 255, 0.8)",
+      },
     },
   },
   plugins: [],
