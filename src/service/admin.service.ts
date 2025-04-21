@@ -533,6 +533,17 @@ class AdminService {
       return new Error("Failed to delete image");
     }
   }
+
+  async updateProduct(productId: string, data: Partial<Product>) {
+    try {
+      const productRef = doc(db, "products", productId);
+      await updateDoc(productRef, data);
+      return { success: true };
+    } catch (error) {
+      console.error("Error updating product:", error);
+      throw new Error("Failed to update product");
+    }
+  }
 }
 
 export const adminService = new AdminService();

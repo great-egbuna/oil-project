@@ -61,12 +61,21 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 relative hover:shadow-lg transition-shadow">
-      <button
-        onClick={() => setShowDelete(true)}
-        className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
-      >
-        <FaTrash size={20} />
-      </button>
+      {/* Edit and Delete Buttons */}
+      <div className="absolute top-2 right-2 flex gap-2">
+        <button
+          onClick={() => router.push(`/dashboard/products/${product.id}`)}
+          className="text-gray-400 hover:text-blue-500"
+        >
+          <FaEdit size={20} />
+        </button>
+        <button
+          onClick={() => setShowDelete(true)}
+          className="text-gray-400 hover:text-red-500"
+        >
+          <FaTrash size={20} />
+        </button>
+      </div>
 
       <div className="flex flex-col items-center">
         <img
@@ -110,13 +119,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 onClick={() => handleDelete(product.id)}
                 className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
               >
-                {deleting ? (
-                  <ButtonLoader />
-                ) : (
-                  `
-                Delete
-    `
-                )}
+                {deleting ? <ButtonLoader /> : "Delete"}
               </button>
             </div>
           </div>
