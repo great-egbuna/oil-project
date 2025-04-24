@@ -16,7 +16,7 @@ const OrderCard = ({
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     whileHover={{ scale: 1.02 }}
-    className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all duration-300 w-full md:min-w-[400px] flex-1"
+    className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all duration-300 w-full md:min-w-[400px] flex-1 relative"
   >
     <div className="flex justify-between items-start gap-4">
       <div className="flex-1">
@@ -67,7 +67,7 @@ const UserOrders = ({ orders }) => {
     <div className="p-4 md:p-6">
       <div className="flex flex-col space-y-4">
         {/* Tabs */}
-        <div className="flex space-x-2 overflow-x-auto pb-2">
+        <div className="flex space-x-2 overflow-x-auto pb-2 ">
           {["pending", "confirmed", "canceled"].map((tab) => (
             <button
               key={tab}
@@ -90,7 +90,7 @@ const UserOrders = ({ orders }) => {
           </div>
         ) : (
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >

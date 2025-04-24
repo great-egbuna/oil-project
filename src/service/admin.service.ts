@@ -503,26 +503,32 @@ class AdminService {
     }
   }
 
-  async getImages(): Promise<ImageItem[]> {
-    const querySnapshot = await getDocs(collection(db, "images"));
-
-    return querySnapshot.docs
-      .map((doc) => ({
-        id: doc.id,
-        url: doc.data().url,
-        createdAt: doc.data().createdAt.toDate(),
-      }))
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  async uploadImage(url: string, description: string) {
+    try {
+      const docRef = await addDoc(collection(db, "images"), {
+        url,
+        description,
+        createdAt: new Date().toISOString(),
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return new Error("Failed to upload image");
+    }
   }
 
-  async uploadImage(url: string): Promise<void | Error> {
+  async getImages(): Promise<ImageItem[]> {
     try {
-      await addDoc(collection(db, "images"), {
-        url,
-        createdAt: serverTimestamp(),
-      });
+      const snapshot = await getDocs(collection(db, "images"));
+      return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        url: doc.data().url,
+        description: doc.data().description || "",
+        createdAt: doc.data(),
+      })) as any;
     } catch (error) {
-      return new Error("Failed to upload image");
+      console.error("Error fetching images:", error);
+      return [];
     }
   }
 
@@ -542,6 +548,90 @@ class AdminService {
     } catch (error) {
       console.error("Error updating product:", error);
       throw new Error("Failed to update product");
+    }
+  }
+
+  // In admin.service.ts
+  async getLandingDescription(): Promise<any | null> {
+    try {
+      const docRef = doc(db, "description", "content");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        return {
+          id: docSnap.id,
+          description: docSnap.data().description,
+          createdAt: docSnap.data().createdAt,
+          updatedAt: docSnap.data().updatedAt,
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error("Error getting landing description:", error);
+      return null;
+    }
+  }
+
+  async saveLandingDescription(description: string): Promise<void> {
+    try {
+      const docRef = doc(db, "description", "content");
+      await setDoc(
+        docRef,
+        {
+          description,
+          updatedAt: new Date().toISOString(),
+          createdAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      console.error("Error saving landing description:", error);
+      throw new Error("Failed to save description");
+    }
+  }
+
+  async saveBlog(data: { url: string; description: string }) {
+    try {
+      const docRef = await addDoc(collection(db, "blog"), {
+        ...data,
+        createdAt: new Date().toISOString(),
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error("Error saving image:", error);
+      throw new Error("Failed to save image");
+    }
+  }
+
+  async getAllBlogs(): Promise<any[]> {
+    try {
+      const q = query(collection(db, "blog"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt,
+      })) as any;
+    } catch (error) {
+      console.error("Error fetching images:", error);
+      return [];
+    }
+  }
+
+  async getBlogById(id: string): Promise<any> {
+    try {
+      const docRef = doc(db, "blog", id);
+      const docSnap = await getDoc(docRef);
+      return docSnap.exists()
+        ? {
+            id: docSnap.id,
+            ...docSnap.data(),
+            createdAt: docSnap.data().createdAt,
+          }
+        : null;
+    } catch (error) {
+      console.error("Error fetching image:", error);
+      return null;
     }
   }
 }

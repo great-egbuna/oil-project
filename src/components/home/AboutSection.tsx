@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function AboutSection() {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-6 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ translateY: 20, opacity: 0 }}
@@ -14,14 +14,16 @@ export default function AboutSection() {
           className="text-center max-w-3xl mx-auto"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-blue-900">
-            The Need For Energy Is{" "}
-            <span className="text-red-500">Universal</span>
+            OUR CORE
+            <span className="text-red-500"> VALUES</span>
           </h2>
-          <p className="text-xl text-gray-700 mb-8">
-            That&apos;s why CL scientists and engineers are pioneering new
-            research and pursuing new technologies to reduce emissions while
-            creating more efficient fuels. We&apos;re committed to responsibly
-            meeting the world&apos;s energy needs.
+          <p className="text-xl text-gray-700 mb-8 text-justify">
+            At Confluence Lube, our core values are the foundation of our
+            business, guiding our actions, decisions, and interactions with
+            customers, employees, and partners. These values reflect who we are,
+            what we stand for, and how we aim to make a positive impact. We
+            value these principles because they help us build trust, drive
+            growth, and create a better future for our Partners.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
             <motion.div
@@ -32,11 +34,12 @@ export default function AboutSection() {
               className="p-6 bg-white rounded-lg shadow-lg border border-blue-100"
             >
               <h3 className="text-xl font-semibold text-blue-900 mb-4">
-                Innovation
+                Customer Focus
               </h3>
-              <p className="text-gray-600">
-                Pioneering new research and technologies to create more
-                efficient and sustainable energy solutions.
+              <p className="text-gray-600 text-left">
+                We prioritize customer satisfaction, committed to understanding
+                and meeting the needs of our customers and building long-term
+                relationships.
               </p>
             </motion.div>
             <motion.div
@@ -47,11 +50,11 @@ export default function AboutSection() {
               className="p-6 bg-white rounded-lg shadow-lg border border-blue-100"
             >
               <h3 className="text-xl font-semibold text-blue-900 mb-4">
-                Sustainability
+                Quality
               </h3>
-              <p className="text-gray-600">
-                Committed to reducing emissions and developing cleaner energy
-                alternatives for a better future.
+              <p className="text-gray-600 text-left">
+                We deliver high-quality products that meet the highest industry
+                standards.
               </p>
             </motion.div>
             <motion.div
@@ -62,11 +65,11 @@ export default function AboutSection() {
               className="p-6 bg-white rounded-lg shadow-lg border border-blue-100"
             >
               <h3 className="text-xl font-semibold text-blue-900 mb-4">
-                Responsibility
+                Integrity and Trust
               </h3>
-              <p className="text-gray-600">
-                Meeting the world&apos;s energy needs responsibly while
-                maintaining the highest safety and environmental standards.
+              <p className="text-gray-600 text-left">
+                We operate with honesty, transparency, and ethics, building
+                trust with our customers and partners.
               </p>
             </motion.div>
           </div>

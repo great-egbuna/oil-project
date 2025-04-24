@@ -35,12 +35,17 @@ const CMSImageGallery = () => {
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [description, setDescription] = useState("Enter Description");
+  const [loadingContent, setLoadingContent] = useState(true);
 
   useEffect(() => {
     const loadImages = async () => {
       try {
         const images = await adminService.getImages();
+        const res = await adminService.getLandingDescription();
         setImages(images);
+        setDescription(res?.description);
+        setLoadingContent(false);
       } catch (error) {
         console.error("Error loading images:", error);
       } finally {
@@ -59,6 +64,18 @@ const CMSImageGallery = () => {
     await handleUpload(file);
   };
 
+  const handleSaveDescription = async () => {
+    try {
+      setLoadingContent(true);
+      await adminService.saveLandingDescription(description);
+      toast.success("Description saved successfully");
+    } catch (error) {
+      toast.error("Failed to save description");
+    } finally {
+      setLoadingContent(false);
+    }
+  };
+
   const handleUpload = async (file: File) => {
     try {
       setUploading(true);
@@ -74,10 +91,11 @@ const CMSImageGallery = () => {
 
       const { secure_url } = await response.json();
 
-      // Save to Firestore
-      await adminService.uploadImage(secure_url);
+      // Save to Firestore with description
+      await adminService.uploadImage(secure_url, description);
 
       toast.success("Image uploaded successfully");
+      setDescription(""); // Reset description after upload
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Upload failed");
     } finally {
@@ -148,6 +166,27 @@ const CMSImageGallery = () => {
             disabled={uploading}
           />
         </label>
+      </div>
+
+      <div className="w-full mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Landing Page Description
+        </label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-2 border rounded-md"
+          placeholder="Enter description for landing page"
+          rows={3}
+        />
+
+        <button
+          onClick={handleSaveDescription}
+          disabled={loadingContent}
+          className="bg-primary-red text-white px-4 py-2 rounded-md hover:bg-red-600 disabled:opacity-70"
+        >
+          {loadingContent ? <ButtonLoader /> : "Save Description"}
+        </button>
       </div>
 
       {/* Image Grid */}

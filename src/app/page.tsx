@@ -4,6 +4,8 @@ import BusinessAreas from "@/components/home/BusinessAreas";
 import AboutSection from "@/components/home/AboutSection";
 import Footer from "@/components/layout/Footer";
 import MobileHeader from "@/components/layout/MobileHeader";
+import Specifications from "@/components/home/Specifications";
+import ApprovedBodies from "@/components/home/ApprovedBody";
 
 export default function Home() {
   return (
@@ -14,6 +16,9 @@ export default function Home() {
         <Hero />
         <AboutSection />
         <BusinessAreas />
+
+        <Specifications />
+        <ApprovedBodies />
       </main>
       <Footer />
     </div>

@@ -12,29 +12,26 @@ import carRefil from "../../assets/images/home/car_refil.jpg";
 import lightBulb from "../../assets/images/home/light_bulb.jpg";
 import Overlay from "../ui/Overlay";
 import { ContactModal } from "./ContactUs";
+import { adminService } from "@/service/admin.service";
 
 // Log the imported images for debugging
 
 interface ImageData {
-  src: StaticImageData;
+  url: StaticImageData;
   alt: string;
 }
 
-const images: ImageData[] = [
+const defaultImages: ImageData[] = [
   {
-    src: cone,
+    url: cone,
     alt: "Oil cone",
   },
   {
-    src: fire,
+    url: fire,
     alt: "Energy fire",
   },
   {
-    src: carRefil,
-    alt: "Car refueling",
-  },
-  {
-    src: lightBulb,
+    url: lightBulb,
     alt: "Light bulb energy",
   },
 ];
@@ -43,13 +40,32 @@ export default function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const [show, setShow] = useState(false);
-
+  const [images, setImages] = useState<any[]>(defaultImages);
+  const [desc, setDesc] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 10000);
 
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const images = await adminService.getImages();
+        const res = await adminService.getLandingDescription();
+        setImages([...defaultImages, images]);
+
+        setDesc(res?.description);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading images:", error);
+      }
+    };
+
+    loadImages();
   }, []);
 
   return (
@@ -65,8 +81,8 @@ export default function Hero() {
             className="absolute inset-0"
           >
             <Image
-              src={images[currentImageIndex].src}
-              alt={images[currentImageIndex].alt}
+              src={images[currentImageIndex].url}
+              alt={images[currentImageIndex].alt || "lading page image"}
               fill
               className="object-cover"
               priority
@@ -87,13 +103,15 @@ export default function Hero() {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            The Need For Energy Is{" "}
+            The Need For Premuim Quality Lubricant Yet Affordable Is{" "}
             <span className="text-red-500">Universal</span>
           </h1>
+
           <p className="text-xl mb-8">
-            CL Scientists And Engineers Are Pioneering New Research And Pursuing
+            {desc ||
+              `  CL Scientists And Engineers Are Pioneering New Research And Pursuing
             New Technologies To Reduce Emissions While Creating More Efficient
-            Fuels.
+            Fuels.`}
           </p>
           <button
             className="inline-block bg-primary-red text-white px-8 py-3 rounded-md hover:bg-red-600 transition-colors group"

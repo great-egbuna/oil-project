@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/service/admin.service";
-import { cn } from "@/lib/utils";
 
 const truncateText = (text: string, maxLength: number) => {
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;

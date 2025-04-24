@@ -9,6 +9,7 @@ import {
   query,
 } from "firebase/firestore";
 import { db } from "./firebase";
+import { ImageItem } from "./admin.service";
 
 export interface OrderData {
   id?: string;
@@ -126,5 +127,7 @@ class OrderService {
       return new Error(message);
     }
   }
+
+ 
 }
 export const orderService = new OrderService();

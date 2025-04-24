@@ -47,6 +47,7 @@ const DashboardLayoutComponent = ({
   const adminNav = [
     { label: "Home", icon: <HiOfficeBuilding />, path: "/dashboard/" },
     { label: "CMS", icon: <SiContentful />, path: "/dashboard/cms" },
+    { label: "News", icon: <SiContentful />, path: "/dashboard/new-blog" },
 
     { label: "Staff", icon: <FiUserPlus />, path: "/dashboard/staff" },
     { label: "Add User", icon: <FiUsers />, path: "/dashboard/new-user" },
@@ -133,7 +134,7 @@ const DashboardLayoutComponent = ({
     <div className="min-h-screen flex">
       {/* Sidebar Navigation */}
       <nav
-        className={`fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200 p-4 lg:pt-24 z-[60] lg:z-40 ${
+        className={`fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200 p-4 lg:pt-24 z-[60] lg:z-40 overflow-y-auto ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
