@@ -13,21 +13,21 @@ export default function BusinessAreas() {
       description:
         "The ultimate protection for all petrol engines, from cars and motorcycles to tricycles and machinery.  premium lubricant is designed to deliver exceptional engine performance, fuel efficiency, and longevity",
       image:
-        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745248979/confluence-profile-images/lewnjowkgph95qgwdvel.jpg",
+        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745544184/1000033982_bodbnp.jpg",
     },
     {
       title: "SUPPO HD50",
       description:
         "The heavy-duty solution for all diesel engines, from rugged trucks and trailers to commercial diesel vehicles and heavy equipment. This powerful lubricant is engineered to withstand extreme temperatures, pressures, and loads, ensuring maximum protection and durability.",
       image:
-        "https://images.pexels.com/photos/20500733/pexels-photo-20500733/free-photo-of-close-up-of-a-person-refueling-the-car-at-a-gas-station.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745544002/1000033980_cholsy.jpg",
     },
     {
       title: "POWERGEAR",
       description:
         "The versatile gear oil that's suitable for all vehicle types, engines, and machines. This high-performance lubricant is designed to reduce wear and tear, prevent corrosion, and optimize gear performance, ensuring smooth operation and extended equipment life.",
       image:
-        "https://images.pexels.com/photos/2284164/pexels-photo-2284164.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745543882/1000033978_lwzvuz.jpg",
     },
   ];
 

@@ -4,17 +4,14 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-
-// Import images from assets
 import cone from "../../assets/images/home/cone.jpg";
 import fire from "../../assets/images/home/fire.jpg";
-import carRefil from "../../assets/images/home/car_refil.jpg";
 import lightBulb from "../../assets/images/home/light_bulb.jpg";
 import Overlay from "../ui/Overlay";
 import { ContactModal } from "./ContactUs";
 import { adminService } from "@/service/admin.service";
-
-// Log the imported images for debugging
+import { FullScreenLoader } from "../ui/Loader";
+import { cn } from "@/lib/utils";
 
 interface ImageData {
   url: StaticImageData;
@@ -22,54 +19,48 @@ interface ImageData {
 }
 
 const defaultImages: ImageData[] = [
-  {
-    url: cone,
-    alt: "Oil cone",
-  },
-  {
-    url: fire,
-    alt: "Energy fire",
-  },
-  {
-    url: lightBulb,
-    alt: "Light bulb energy",
-  },
+  { url: cone, alt: "Oil cone" },
+  { url: fire, alt: "Energy fire" },
+  { url: lightBulb, alt: "Light bulb energy" },
 ];
 
 export default function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
   const [show, setShow] = useState(false);
   const [images, setImages] = useState<any[]>(defaultImages);
   const [desc, setDesc] = useState("");
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 10000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const loadImages = async () => {
       try {
-        const images = await adminService.getImages();
-        const res = await adminService.getLandingDescription();
-        setImages([...defaultImages, images]);
+        const cmsImages = await adminService.getImages();
+        const content = await adminService.getLandingDescription();
 
-        setDesc(res?.description);
+        setImages([...defaultImages, ...cmsImages]);
+        setDesc(content?.description || "");
         setLoading(false);
       } catch (error) {
         console.error("Error loading images:", error);
+        setLoading(false);
       }
     };
 
     loadImages();
   }, []);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 10000);
+
+    return () => clearInterval(timer);
+  }, [images.length]);
+
+  if (loading) return <FullScreenLoader />;
+
   return (
-    <div className="relative h-[600px]">
+    <div className="relative min-h-[600px]  ">
       <div className="absolute inset-0">
         <AnimatePresence initial={false}>
           <motion.div
@@ -78,53 +69,69 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="absolute inset-0"
+            className="absolute inset-0 flex items-end"
           >
             <Image
               src={images[currentImageIndex].url}
-              alt={images[currentImageIndex].alt || "lading page image"}
+              alt={images[currentImageIndex].alt || "hero image"}
               fill
               className="object-cover"
               priority
               sizes="100vw"
-              quality={90}
-              unoptimized={false}
+              unoptimized
             />
-            <div className="absolute inset-0 bg-black/30" />
+            <div
+              className={cn("absolute inset-0", {
+                " bg-black/30": currentImageIndex < defaultImages.length,
+              })}
+            />
           </motion.div>
         </AnimatePresence>
       </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-        <motion.div
-          className="text-white max-w-2xl"
-          initial={{ translateY: 50, opacity: 0 }}
-          animate={{ translateY: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            The Need For Premuim Quality Lubricant Yet Affordable Is{" "}
-            <span className="text-red-500">Universal</span>
-          </h1>
-
-          <p className="text-xl mb-8">
-            {desc ||
-              `  CL Scientists And Engineers Are Pioneering New Research And Pursuing
-            New Technologies To Reduce Emissions While Creating More Efficient
-            Fuels.`}
-          </p>
-          <button
-            className="inline-block bg-primary-red text-white px-8 py-3 rounded-md hover:bg-red-600 transition-colors group"
-            onClick={() => setShow(true)}
+      {/* Only show text for default images */}
+      {currentImageIndex < defaultImages.length && (
+        <div className="relative max-w-7xl mx-auto h-full flex  items-center px-4 sm:px-6 lg:px-8 pt-12">
+          <motion.div
+            className="text-white max-w-2xl"
+            initial={{ translateY: 50, opacity: 0 }}
+            animate={{ translateY: 0, opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            Contact Us
-            <span className="inline-block transition-transform group-hover:scale-125 animate-pulse ml-1">
-              →
-            </span>
-          </button>
-        </motion.div>
-      </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              The Need For Premium Quality Lubricant Yet Affordable Is{" "}
+              <span className="text-red-500">Universal</span>
+            </h1>
 
+            <p className="text-xl mb-8">
+              {desc ||
+                `CL Scientists And Engineers Are Pioneering New Research And Pursuing
+              New Technologies To Reduce Emissions While Creating More Efficient
+              Fuels.`}
+            </p>
+
+            <button
+              className="inline-block bg-primary-red text-white px-8 py-3 rounded-md hover:bg-red-600 transition-colors group"
+              onClick={() => setShow(true)}
+            >
+              Contact Us
+              <span className="inline-block transition-transform group-hover:scale-125 animate-pulse ml-1">
+                →
+              </span>
+            </button>
+          </motion.div>
+        </div>
+      )}{" "}
+      {/*    <div className="px-4 sm:px-6 lg:px-8 ">
+        <button
+          className="inline-block bg-primary-red text-white px-8 py-3 rounded-md hover:bg-red-600 transition-colors group relative z-20"
+          onClick={() => setShow(true)}
+        >
+          Contact Us
+          <span className="inline-block transition-transform group-hover:scale-125 animate-pulse ml-1">
+            →
+          </span>
+        </button>
+      </div> */}
       {show && (
         <Overlay onClose={() => setShow(false)}>
           <ContactModal onClose={() => setShow(false)} />

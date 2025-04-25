@@ -88,7 +88,7 @@ export default function NewsDetailPageComponent() {
             relatedImages.map((related) => (
               <Link
                 key={related.id}
-                href={`/cms/images/${related.id}`}
+                href={`/news/${related.id}`}
                 className="block group bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow"
               >
                 <div className="relative aspect-square">

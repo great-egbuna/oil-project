@@ -9,7 +9,7 @@ const truncateText = (text: string, maxLength: number) => {
 };
 
 const ProductCard = ({ product }: { product: Product }) => {
-  console.log(product?.productImage);
+ 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow ">
       <div className="flex flex-col items-center h-full">
