@@ -24,6 +24,7 @@ import { BiMessage } from "react-icons/bi";
 
 export const UserList = () => {
   const { users, loading } = useRegularUsers();
+  const [localUsers, setLocalUsers] = useState(users);
   const [userToDelete, setUserToDelete] = useState<string | null>(null);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -37,6 +38,11 @@ export const UserList = () => {
   const { authenticatedUser } = useUser();
   const { authLoading } = useUserStoreNonPersist((state) => state);
 
+  // Sync local users with hook users
+  useEffect(() => {
+    setLocalUsers(users);
+  }, [users]);
+
   const handleDeleteClick = (uid: string) => {
     setUserToDelete(uid);
     setIsDeleteOpen(true);
@@ -49,6 +55,8 @@ export const UserList = () => {
       if (res instanceof Error) {
         toast(res.message, { type: "error" });
       } else {
+        // Optimistically remove user from local state
+        setLocalUsers((prev) => prev.filter((user) => user.uid !== id));
         toast("User deleted successfully", { type: "success" });
       }
     } catch (error) {
@@ -63,13 +71,19 @@ export const UserList = () => {
   const handleBlockUnblock = async (uid: string) => {
     setUpdatingId(uid);
     try {
-      const user = users.find((u) => u.uid === uid);
+      const user = localUsers.find((u) => u.uid === uid);
       const newStatus = user?.status === "blocked" ? "active" : "blocked";
 
       const res = await adminService.updateUserStatus(uid, newStatus);
       if (res instanceof Error) {
         toast(res.message, { type: "error" });
       } else {
+        // Optimistically update local state
+        setLocalUsers((prev) =>
+          prev.map((user) =>
+            user.uid === uid ? { ...user, status: newStatus } : user
+          )
+        );
         toast(
           `User ${
             newStatus === "blocked" ? "blocked" : "unblocked"
@@ -108,7 +122,6 @@ export const UserList = () => {
   };
 
   const handleUserClick = (user: any) => {
-    console.log("Hello");
     setSelectedUser(user);
     setShowMessageForm(true);
   };
@@ -120,7 +133,7 @@ export const UserList = () => {
   }, [authLoading, authenticatedUser, router]);
 
   if (loading) return <FullScreenLoader />;
-  if (!users || users?.length === 0) return <EmptyUsersCard />;
+  if (!localUsers || localUsers?.length === 0) return <EmptyUsersCard />;
 
   return (
     <div className="p-6">
@@ -130,7 +143,7 @@ export const UserList = () => {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {users.map((user) => (
+        {localUsers.map((user) => (
           <div
             key={user.uid}
             className="relative bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer"
@@ -224,7 +237,7 @@ export const UserList = () => {
                   ) : (
                     <>
                       <BiMessage className="w-4 h-4" />
-                      <span>Mesage</span>
+                      <span>Message</span>
                     </>
                   )}
                 </button>

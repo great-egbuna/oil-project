@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const { cartItems, setShowOrderModal } = useCart();
+  const { cartItems  } = useCart();
 
   const totalAmount = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
