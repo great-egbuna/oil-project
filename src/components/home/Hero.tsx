@@ -1,10 +1,10 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import cone from "../../assets/images/home/cone.jpg";
+import mobileOne from "../../assets/images/home/mobile-one.png";
 import fire from "../../assets/images/home/fire.jpg";
 import lightBulb from "../../assets/images/home/light_bulb.jpg";
 import Overlay from "../ui/Overlay";
@@ -24,24 +24,44 @@ const defaultImages: ImageData[] = [
   { url: lightBulb, alt: "Light bulb energy" },
 ];
 
+const mobileImages: ImageData[] = [
+  { url: cone, alt: "Oil cone" },
+  { url: fire, alt: "Energy fire" },
+  { url: lightBulb, alt: "Light bulb energy" },
+  { url: mobileOne, alt: "hero image" },
+];
+
 export default function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [show, setShow] = useState(false);
-  const [images, setImages] = useState<any[]>(defaultImages);
+  const [images, setImages] = useState<ImageData[]>(defaultImages);
   const [desc, setDesc] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    setImages(isMobile ? mobileImages : defaultImages);
+    setCurrentImageIndex(0);
+  }, [isMobile]);
 
   useEffect(() => {
     const loadImages = async () => {
       try {
-        /*   const cmsImages = await adminService.getImages(); */
         const content = await adminService.getLandingDescription();
-
-        /*   setImages([...defaultImages, ...cmsImages]); */
         setDesc(content?.description || "");
         setLoading(false);
       } catch (error) {
-        console.error("Error loading images:", error);
+        console.error("Error loading content:", error);
         setLoading(false);
       }
     };
@@ -60,7 +80,7 @@ export default function Hero() {
   if (loading) return <FullScreenLoader />;
 
   return (
-    <div className="relative min-h-[600px]  ">
+    <div className="relative min-h-[600px]">
       <div className="absolute inset-0">
         <AnimatePresence initial={false}>
           <motion.div
@@ -73,7 +93,7 @@ export default function Hero() {
           >
             <Image
               src={images[currentImageIndex].url}
-              alt={images[currentImageIndex].alt || "hero image"}
+              alt={images[currentImageIndex].alt}
               fill
               className="object-cover"
               priority
@@ -82,15 +102,15 @@ export default function Hero() {
             />
             <div
               className={cn("absolute inset-0", {
-                " bg-black/30": currentImageIndex < defaultImages.length,
+                "bg-black/30": currentImageIndex < defaultImages.length,
               })}
             />
           </motion.div>
         </AnimatePresence>
       </div>
-      {/* Only show text for default images */}
+
       {currentImageIndex < defaultImages.length && (
-        <div className="relative max-w-7xl mx-auto h-full flex  items-center px-4 sm:px-6 lg:px-8 pt-12">
+        <div className="relative max-w-7xl mx-auto h-full flex items-center px-4 sm:px-6 lg:px-8 pt-12">
           <motion.div
             className="text-white max-w-2xl"
             initial={{ translateY: 50, opacity: 0 }}
@@ -120,18 +140,8 @@ export default function Hero() {
             </button>
           </motion.div>
         </div>
-      )}{" "}
-      {/*    <div className="px-4 sm:px-6 lg:px-8 ">
-        <button
-          className="inline-block bg-primary-red text-white px-8 py-3 rounded-md hover:bg-red-600 transition-colors group relative z-20"
-          onClick={() => setShow(true)}
-        >
-          Contact Us
-          <span className="inline-block transition-transform group-hover:scale-125 animate-pulse ml-1">
-            →
-          </span>
-        </button>
-      </div> */}
+      )}
+
       {show && (
         <Overlay onClose={() => setShow(false)}>
           <ContactModal onClose={() => setShow(false)} />
