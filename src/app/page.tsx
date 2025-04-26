@@ -9,8 +9,10 @@ import MobileHeader from "@/components/layout/MobileHeader";
 import Specifications from "@/components/home/Specifications";
 import ApprovedBodies from "@/components/home/ApprovedBody";
 import { useCart } from "@/context/appContext";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const { cartItems, setShowOrderModal } = useCart();
 
   const totalAmount = cartItems.reduce(
@@ -44,7 +46,7 @@ export default function Home() {
                 </p>
               </div>
               <button
-                onClick={() => setShowOrderModal(true)}
+                onClick={() => router.push(`/products/${cartItems[0]?.id}`)}
                 className="px-6 py-2 bg-primary-red text-white rounded hover:bg-red-600 min-w-[150px]"
               >
                 Checkout

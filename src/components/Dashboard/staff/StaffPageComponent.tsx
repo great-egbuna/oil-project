@@ -17,6 +17,10 @@ export default function StaffPageComponent() {
     firstName: string;
     lastName: string;
     uid: string;
+    bankAccountNo?: string;
+    bankName?: string;
+    expectedSalary?: string;
+    dateOfEmployment?: string;
   } | null>(null);
   const [activeTab, setActiveTab] = useState("task");
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -54,7 +58,6 @@ export default function StaffPageComponent() {
         });
       }
     }
-
     setIsDeleting(false);
   };
 
@@ -79,11 +82,8 @@ export default function StaffPageComponent() {
         description: taskForm.description,
       });
 
-      // Close overlay and reset form
       setIsOverlayOpen(false);
       setTaskForm({ name: "", description: "" });
-
-      // Optional: Show success notification
       toast("Task created successfully!", {
         type: "success",
       });
@@ -167,13 +167,10 @@ export default function StaffPageComponent() {
                 <h3 className="text-xs font-normal ">
                   Name: {staff.firstName} {staff.lastName}
                 </h3>
-
                 <h3 className="text-xs font-normal ">Email: {staff.email}</h3>
-
                 <h3 className="text-xs font-normal ">
                   Phone: {staff.callNumber}
                 </h3>
-
                 <h3 className="text-xs font-normal ">
                   Position: {staff.position}
                 </h3>
@@ -184,13 +181,12 @@ export default function StaffPageComponent() {
       </div>
 
       {/* Task Overlay */}
-
       {isOverlayOpen && (
         <Overlay onClose={() => setIsOverlayOpen(false)}>
-          <div className="bg-white rounded-lg p-6 w-full ">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold">
-                {selectedStaff?.firstName}'s Tasks
+                {selectedStaff?.firstName}'s Profile
               </h2>
               <button
                 onClick={() => setIsOverlayOpen(false)}
@@ -218,7 +214,17 @@ export default function StaffPageComponent() {
                   }`}
                   onClick={() => setActiveTab("All Tasks")}
                 >
-                  Details
+                  All Tasks
+                </button>
+                <button
+                  className={`pb-2 px-4 ${
+                    activeTab === "details"
+                      ? "border-b-2 border-primary-red"
+                      : ""
+                  }`}
+                  onClick={() => setActiveTab("details")}
+                >
+                  Staff Details
                 </button>
               </div>
             </div>
@@ -270,12 +276,56 @@ export default function StaffPageComponent() {
                 )}
               </div>
             )}
+
+            {activeTab === "details" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">
+                      Bank Account Number
+                    </label>
+                    <p className="mt-1 text-gray-900">
+                      {selectedStaff?.bankAccountNo || "N/A"}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">
+                      Bank Name
+                    </label>
+                    <p className="mt-1 text-gray-900">
+                      {selectedStaff?.bankName || "N/A"}
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">
+                      Expected Salary
+                    </label>
+                    <p className="mt-1 text-gray-900">
+                      {selectedStaff?.expectedSalary
+                        ? `₦${Number(
+                            selectedStaff.expectedSalary
+                          ).toLocaleString()}`
+                        : "N/A"}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">
+                      Date of Employment
+                    </label>
+                    <p className="mt-1 text-gray-900">
+                      {selectedStaff?.dateOfEmployment || "N/A"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </Overlay>
       )}
 
       {/* Delete Confirmation Overlay */}
-
       {isDeleteConfirmOpen && (
         <Overlay onClose={() => setIsDeleteConfirmOpen(false)}>
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
@@ -293,7 +343,7 @@ export default function StaffPageComponent() {
               </button>
               <button
                 onClick={handleDeleteConfirm}
-                className="px-4 py-2 bg-primary-red text-white rounded hover:bg-red-600 "
+                className="px-4 py-2 bg-primary-red text-white rounded hover:bg-red-600"
               >
                 {isDeleting ? <ButtonLoader /> : "Delete"}
               </button>

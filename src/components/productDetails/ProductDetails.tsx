@@ -111,6 +111,7 @@ const ProductDetailsPage = () => {
       await Promise.all(orderPromises);
 
       toast.success("Order placed successfully!");
+      router.push("/dashboard");
       setShowOrderModal(false);
       setCartItems([]);
     } catch (error) {

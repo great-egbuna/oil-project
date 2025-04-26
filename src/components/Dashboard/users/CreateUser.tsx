@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { useUser } from "@/hooks/useUser";
 import Image from "next/image";
 import { FiCamera, FiChevronDown, FiX, FiUpload } from "react-icons/fi";
-
 import { adminService } from "@/service/admin.service";
 import { toast } from "react-toastify";
 import { ButtonLoader } from "@/components/ui/Loader";
@@ -16,7 +15,6 @@ import { firebaseConfig } from "@/service/firebase";
 
 export default function CreateUser() {
   const router = useRouter();
-
   const { authenticatedUser } = useUser();
   const { authLoading, setCreateStaff } = useUserStoreNonPersist(
     (state) => state
@@ -61,13 +59,35 @@ export default function CreateUser() {
     "Zamfara",
   ];
 
+  const nigerianBanks = [
+    "Access Bank",
+    "Citibank Nigeria",
+    "Ecobank Nigeria",
+    "Fidelity Bank",
+    "First Bank of Nigeria",
+    "First City Monument Bank",
+    "Guaranty Trust Bank",
+    "Heritage Bank",
+    "Keystone Bank",
+    "Polaris Bank",
+    "Stanbic IBTC Bank",
+    "Standard Chartered Bank",
+    "Sterling Bank",
+    "Union Bank of Nigeria",
+    "United Bank for Africa",
+    "Unity Bank",
+    "Wema Bank",
+    "Zenith Bank",
+    "Opay",
+    "Moniepoint"
+  ];
+
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Form state
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -84,8 +104,12 @@ export default function CreateUser() {
     businessDuration: "",
     marketingTeam: "",
     position: "",
+    bankAccountNo: "",
+    bankName: "",
+    expectedSalary: "",
+    dateOfEmployment: "",
     declaration: false,
-    passportFile: null as File | null, // Add passport file state
+    passportFile: null as File | null,
   });
 
   const handleRegionChange = (
@@ -127,7 +151,6 @@ export default function CreateUser() {
         return;
       }
 
-      // Upload profile image
       const profileFormData = new FormData();
       profileFormData.append("file", selectedFile);
       const profileResponse = await fetch("/api/upload-image", {
@@ -138,7 +161,6 @@ export default function CreateUser() {
       if (!profileResponse.ok) throw new Error("Profile image upload failed");
       const profileResult = await profileResponse.json();
 
-      // Upload passport image if needed
       let passportUrl = "";
       if (["Dealer", "Distributor"].includes(formData.role)) {
         if (!formData.passportFile) {
@@ -159,7 +181,6 @@ export default function CreateUser() {
         passportUrl = passportResult.secure_url;
       }
 
-      // Prepare staff data
       const { passportFile, ...restData } = formData;
       const staffData = {
         ...restData,
@@ -177,21 +198,14 @@ export default function CreateUser() {
       adminAuth.signOut();
 
       if (result instanceof Error) {
-        toast(result.message, {
-          type: "error",
-        });
-
+        toast(result.message, { type: "error" });
         return;
       }
-      // Reset form on success
 
-      toast("Staff created successfully", {
-        type: "success",
-      });
+      toast("Staff created successfully", { type: "success" });
       setPreview(null);
       setSelectedFile(null);
       formRef.current?.reset();
-      // Add success toast here
     } catch (err: any) {
       setError(err.message || "Failed to create staff account");
     } finally {
@@ -200,8 +214,8 @@ export default function CreateUser() {
   };
 
   useEffect(() => {
-    if (!authLoading) {
-      if (authenticatedUser?.role !== "admin") router.push("/dashboard");
+    if (!authLoading && authenticatedUser?.role !== "admin") {
+      router.push("/dashboard");
     }
   }, [authLoading]);
 
@@ -212,7 +226,6 @@ export default function CreateUser() {
       </h1>
 
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-        {/* Image Upload */}
         <div className="flex flex-col items-center mb-8">
           <div className="relative w-32 h-32 rounded-full border-2 border-dashed border-gray-300 mb-4">
             <input
@@ -255,7 +268,6 @@ export default function CreateUser() {
           <span className="text-gray-600 text-sm">Upload Profile Photo</span>
         </div>
 
-        {/* Form Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative">
             <input
@@ -380,26 +392,97 @@ export default function CreateUser() {
         </div>
 
         {formData.role === "Staff" && (
-          <div className="relative mt-2">
-            <input
-              type="text"
-              id="lastName"
-              required
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none peer"
-              onChange={(e) =>
-                setFormData({ ...formData, position: e.target.value })
-              }
-            />
-            <label className="absolute left-4 top-2 text-gray-400 transition-all duration-200 peer-focus:-top-4 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-sm bg-white px-1">
-              Position In Company *
-            </label>
+          <div className="space-y-6 mt-4">
+            <div className="relative">
+              <input
+                type="text"
+                id="position"
+                required
+                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none peer"
+                onChange={(e) =>
+                  setFormData({ ...formData, position: e.target.value })
+                }
+              />
+              <label className="absolute left-4 top-2 text-gray-400 transition-all duration-200 peer-focus:-top-4 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-sm bg-white px-1">
+                Position In Company *
+              </label>
+            </div>
+
+            {/* New Staff Fields */}
+            <div className="relative">
+              <input
+                type="text"
+                id="bankAccountNo"
+                required
+                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none peer"
+                onChange={(e) =>
+                  setFormData({ ...formData, bankAccountNo: e.target.value })
+                }
+              />
+              <label className="absolute left-4 top-2 text-gray-400 transition-all duration-200 peer-focus:-top-4 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-sm bg-white px-1">
+                Bank Account Number *
+              </label>
+            </div>
+
+            <div className="relative">
+              <select
+                id="bankName"
+                required
+                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none appearance-none peer bg-transparent"
+                onChange={(e) =>
+                  setFormData({ ...formData, bankName: e.target.value })
+                }
+                value={formData.bankName || ""}
+              >
+                <option value="" disabled hidden></option>
+                {nigerianBanks.map((bank) => (
+                  <option key={bank} value={bank}>
+                    {bank}
+                  </option>
+                ))}
+              </select>
+              <label className="absolute left-4 top-2 text-gray-400 transition-all duration-200 peer-focus:-top-4 peer-focus:text-sm peer-[:not([value=''])]:-top-4 peer-[:not([value=''])]:text-sm bg-white px-1">
+                Bank Name *
+              </label>
+              <div className="absolute right-4 top-3 pointer-events-none">
+                <FiChevronDown className="text-gray-400" />
+              </div>
+            </div>
+
+            <div className="relative">
+              <input
+                type="number"
+                id="expectedSalary"
+                required
+                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none peer"
+                onChange={(e) =>
+                  setFormData({ ...formData, expectedSalary: e.target.value })
+                }
+              />
+              <label className="absolute left-4 top-2 text-gray-400 transition-all duration-200 peer-focus:-top-4 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-sm bg-white px-1">
+                Expected Salary (NGN) *
+              </label>
+            </div>
+
+            <div className="relative">
+              <input
+                type="date"
+                id="dateOfEmployment"
+                required
+                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:border-primary-red outline-none peer"
+                onChange={(e) =>
+                  setFormData({ ...formData, dateOfEmployment: e.target.value })
+                }
+              />
+              <label className="absolute left-4 top-2 text-gray-400 transition-all duration-200 peer-focus:-top-4 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-sm bg-white px-1">
+                Date of Employment *
+              </label>
+            </div>
           </div>
         )}
 
-        {/* Conditional Fields for Dealers/Distributors */}
         {(formData.role === "Dealer" || formData.role === "Distributor") && (
           <div className="space-y-6">
-            {/* Office Address */}
             <div className="relative">
               <input
                 type="text"
@@ -415,7 +498,6 @@ export default function CreateUser() {
               </label>
             </div>
 
-            {/* Warehouse Capacity */}
             <div className="relative">
               <select
                 id="warehouseCapacity"
@@ -445,7 +527,6 @@ export default function CreateUser() {
               </div>
             </div>
 
-            {/* Passport Upload */}
             <div className="relative">
               <input
                 type="file"
@@ -469,7 +550,6 @@ export default function CreateUser() {
               </label>
             </div>
 
-            {/* How Did You Hear About Us */}
             <div className="relative">
               <select
                 id="hearAboutUs"
@@ -502,7 +582,6 @@ export default function CreateUser() {
               </div>
             </div>
 
-            {/* Other Oil Products */}
             <div className="relative">
               <input
                 type="text"
@@ -518,7 +597,6 @@ export default function CreateUser() {
               </label>
             </div>
 
-            {/* Business Duration */}
             <div className="relative">
               <select
                 id="businessDuration"
@@ -549,7 +627,6 @@ export default function CreateUser() {
               </div>
             </div>
 
-            {/* Marketing Team */}
             <div className="relative">
               <select
                 id="marketingTeam"
@@ -571,7 +648,6 @@ export default function CreateUser() {
               </div>
             </div>
 
-            {/* Nigerian States Checkboxes */}
             <div className="relative">
               <div className="border-b-2 border-gray-300 focus-within:border-primary-red">
                 <label className="text-gray-400 text-sm">
@@ -593,7 +669,6 @@ export default function CreateUser() {
               </div>
             </div>
 
-            {/* Declaration */}
             <div className="relative flex items-start space-x-3">
               <input
                 type="checkbox"
