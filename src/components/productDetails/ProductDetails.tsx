@@ -10,6 +10,7 @@ import { ButtonLoader, FullScreenLoader } from "@/components/ui/Loader";
 import Overlay from "@/components/ui/Overlay";
 import { orderService } from "@/service/orders.service";
 import Image from "next/image";
+import { useCart } from "@/context/appContext";
 
 interface CartItem extends Product {
   quantity: number;
@@ -23,16 +24,20 @@ const ProductDetailsPage = () => {
   const router = useRouter();
   const { id } = useParams();
   const { products } = useProducts();
+  const { cartItems, setCartItems, setShowOrderModal, showOrderModal } =
+    useCart();
   const { authenticatedUser } = useUserStore();
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [showOrderModal, setShowOrderModal] = useState(false);
   const [transactionId, setTransactionId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderError, setOrderError] = useState("");
-  const [cartItems, setCartItems] = useState<CartItem[]>(cartCache);
 
   // Sync with cache
+  useEffect(() => {
+    setCartItems(cartCache);
+  }, []);
+
   useEffect(() => {
     cartCache = cartItems;
   }, [cartItems]);
@@ -84,7 +89,7 @@ const ProductDetailsPage = () => {
       }, {} as Record<string, CartItem>);
 
       // Convert to array and create orders
-      const orderPromises = Object.values(groupedOrders).map((item) =>
+      const orderPromises = Object.values(groupedOrders).map((item: any) =>
         orderService.storeOrder({
           productId: item.id,
           productName: `${item.type} - ${item.litre}`,
@@ -192,7 +197,7 @@ const ProductDetailsPage = () => {
 
         {/* Fixed Order Summary */}
         {cartItems.length > 0 && (
-          <div className="fixed bottom-4 right-4 bg-white p-4 rounded-lg shadow-xl border z-50">
+          <div className="fixed top-[70%] right-4 bg-white p-4 rounded-lg shadow-xl border z-50">
             <div className="flex items-center gap-6">
               <div>
                 <h3 className="font-semibold">
