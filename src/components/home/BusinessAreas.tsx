@@ -37,28 +37,28 @@ export default function BusinessAreas() {
         <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
           OUR PRIMARY PRODUCTS
         </h2>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4  w-full  mx-auto">
           {areas.map((area, index) => (
             <motion.div
               key={index}
-              initial={
-                isMobile
-                  ? { opacity: 0, translateY: 50 }
-                  : { opacity: 0, scale: 0.8 }
-              }
-              whileInView={
-                isMobile
-                  ? { opacity: 1, translateY: 0 }
-                  : { opacity: 1, scale: 1 }
-              }
-              transition={{
-                duration: 0.3,
-                delay: index * 0.1,
-                type: "tween",
+              initial={{
+                opacity: 0,
+                y: isMobile ? 50 : 0,
+                scale: isMobile ? 1 : 0.95,
               }}
-              viewport={{ once: true, margin: "-50px" }}
-              whileHover={!isMobile ? { scale: 1.05 } : undefined}
-              className="bg-white rounded-lg shadow-lg overflow-hidden "
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.1,
+                type: "spring",
+                stiffness: 100,
+              }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              className="bg-white rounded-lg shadow-lg overflow-hidden w-full min-w-0"
             >
               <div className="relative h-48">
                 <Image

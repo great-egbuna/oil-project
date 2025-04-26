@@ -17,7 +17,7 @@ export default function AboutSection() {
             OUR CORE
             <span className="text-red-500"> VALUES</span>
           </h2>
-          <p className="text-xl text-gray-700 mb-8 text-justify">
+          <p className="text-base md:text-lg lg:text-xl text-gray-700 mb-8 text-justify">
             At Confluence Lube, our core values are the foundation of our
             business, guiding our actions, decisions, and interactions with
             customers, employees, and partners. These values reflect who we are,
@@ -36,7 +36,7 @@ export default function AboutSection() {
               <h3 className="text-xl font-semibold text-blue-900 mb-4">
                 Customer Focus
               </h3>
-              <p className="text-gray-600 text-left">
+              <p className=" text-sm sm:text-base text-gray-600 text-justify leading-tight tracking-tight hyphens-auto max-w-[600px]">
                 We prioritize customer satisfaction, committed to understanding
                 and meeting the needs of our customers and building long-term
                 relationships.
@@ -52,7 +52,7 @@ export default function AboutSection() {
               <h3 className="text-xl font-semibold text-blue-900 mb-4">
                 Quality
               </h3>
-              <p className="text-gray-600 text-left">
+              <p className=" text-sm sm:text-base text-gray-600 text-justify leading-tight tracking-tight hyphens-auto max-w-[600px]">
                 We deliver high-quality products that meet the highest industry
                 standards.
               </p>
@@ -67,7 +67,7 @@ export default function AboutSection() {
               <h3 className="text-xl font-semibold text-blue-900 mb-4">
                 Integrity and Trust
               </h3>
-              <p className="text-gray-600 text-left">
+              <p className=" text-sm sm:text-base text-gray-600 text-justify leading-tight tracking-tight hyphens-auto max-w-[600px]">
                 We operate with honesty, transparency, and ethics, building
                 trust with our customers and partners.
               </p>

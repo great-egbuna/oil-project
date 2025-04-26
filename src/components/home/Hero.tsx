@@ -34,10 +34,10 @@ export default function Hero() {
   useEffect(() => {
     const loadImages = async () => {
       try {
-        const cmsImages = await adminService.getImages();
+        /*   const cmsImages = await adminService.getImages(); */
         const content = await adminService.getLandingDescription();
 
-        setImages([...defaultImages, ...cmsImages]);
+        /*   setImages([...defaultImages, ...cmsImages]); */
         setDesc(content?.description || "");
         setLoading(false);
       } catch (error) {
@@ -102,7 +102,7 @@ export default function Hero() {
               <span className="text-red-500">Universal</span>
             </h1>
 
-            <p className="text-xl mb-8">
+            <p className="text-base md:text-lg lg:text-xl mb-8 text-justify md:text-left">
               {desc ||
                 `CL Scientists And Engineers Are Pioneering New Research And Pursuing
               New Technologies To Reduce Emissions While Creating More Efficient
