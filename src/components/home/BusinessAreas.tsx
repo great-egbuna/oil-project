@@ -20,7 +20,7 @@ export default function BusinessAreas() {
       description:
         "The heavy-duty solution for all diesel engines, from rugged trucks and trailers to commercial diesel vehicles and heavy equipment. This powerful lubricant is engineered to withstand extreme temperatures, pressures, and loads, ensuring maximum protection and durability.",
       image:
-        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745714354/1000034488_lxwiwi.jpg",
+        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745715590/1000034499_o4hwoy.jpg",
     },
     {
       title: "POWERGEAR",
