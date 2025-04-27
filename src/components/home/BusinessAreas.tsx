@@ -13,21 +13,21 @@ export default function BusinessAreas() {
       description:
         "The ultimate protection for all petrol engines, from cars and motorcycles to tricycles and machinery.  premium lubricant is designed to deliver exceptional engine performance, fuel efficiency, and longevity",
       image:
-        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745544184/1000033982_bodbnp.jpg",
+        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745714354/1000034492_ovrwmd.jpg",
     },
     {
       title: "SUPPO HD50",
       description:
         "The heavy-duty solution for all diesel engines, from rugged trucks and trailers to commercial diesel vehicles and heavy equipment. This powerful lubricant is engineered to withstand extreme temperatures, pressures, and loads, ensuring maximum protection and durability.",
       image:
-        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745544002/1000033980_cholsy.jpg",
+        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745714354/1000034488_lxwiwi.jpg",
     },
     {
       title: "POWERGEAR",
       description:
         "The versatile gear oil that's suitable for all vehicle types, engines, and machines. This high-performance lubricant is designed to reduce wear and tear, prevent corrosion, and optimize gear performance, ensuring smooth operation and extended equipment life.",
       image:
-        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745543882/1000033978_lwzvuz.jpg",
+        "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745714354/1000034490_j6izwg.jpg",
     },
   ];
 
@@ -60,12 +60,14 @@ export default function BusinessAreas() {
               viewport={{ once: true, margin: "0px 0px -100px 0px" }}
               className="bg-white rounded-lg shadow-lg overflow-hidden w-full min-w-0"
             >
-              <div className="relative h-48">
+              <div className="relative h-48 w-full md:max-w-[350px] h-full max-h-[150px]">
                 <Image
                   src={area.image}
                   alt={area.title}
-                  fill
-                  className="object-cover"
+                  className="object-cover w-full h-full"
+                  width={50}
+                  height={50}
+                  unoptimized
                 />
               </div>
               <div className="p-6">
