@@ -23,7 +23,7 @@ export default function ApprovedBodies() {
         {logos.map((logo, index) => (
           <div
             key={index}
-            className="flex items-center justify-center p-4 bg-gray-50 rounded-xl hover:bg-white transition-all duration-300 hover:shadow-lg group"
+            className="flex items-center justify-center p-4 bg-gray-50 rounded-xl  transition-all duration-300  group"
           >
             <img
               src={logo}
