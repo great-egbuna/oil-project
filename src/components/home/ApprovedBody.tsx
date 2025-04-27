@@ -4,6 +4,7 @@ export default function ApprovedBodies() {
     "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745527706/1000033878_fn5dkn.jpg",
     "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745527839/1000033834_uwqk3q.jpg",
     "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745527958/1000033837_lf5oy8.jpg",
+    "https://res.cloudinary.com/dx5wmtutn/image/upload/v1745712769/fed_ofinvk.jpg",
   ];
 
   return (
@@ -18,7 +19,7 @@ export default function ApprovedBodies() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {logos.map((logo, index) => (
           <div
             key={index}

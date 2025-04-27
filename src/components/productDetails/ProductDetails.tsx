@@ -277,15 +277,15 @@ const ProductDetailsPage = () => {
                       href="mailto:support@ConfluenceLube.com"
                       className="block hover:underline"
                     >
-                      support@ConfluenceLube.com
+                      admin@ConfluenceLube.com
                     </a>
                     <div className="flex gap-2">
                       <a href="tel:07043005952" className="hover:underline">
-                        07043005952
+                        Phone: +234 703 391 0294
                       </a>
                       <span>|</span>
                       <a href="tel:08089617092" className="hover:underline">
-                        08089617092
+                        WhatsApp: +234 703 391 0294
                       </a>
                     </div>
                   </div>
